@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 | Sekai Learning</title>
+    <link rel="stylesheet" th:href="@{/css/learn.css}">
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+</head>
+<body>
+<div class="app-bg"></div>
+
+<nav class="navbar">
+    <div class="nav-brand">
+        <span class="brand-icon">🔮</span>
+        <span class="brand-text">SEKAI LEARNING</span>
+    </div>
+    <div class="nav-links">
+        <a href="/learn" class="nav-link">// HOME</a>
+        <a href="/learn/paper" class="nav-link">// Paper2Gal</a>
+        <a href="/learn/anime" class="nav-link">// ANIME</a>
+        <a href="/learn/community" class="nav-link">// COMMUNITY</a>
+    </div>
+    <div class="nav-user">
+        <div class="user-stats">
+            <span class="stat-item">¥ <span id="navCoins">500</span></span>
+            <span class="stat-item">LV.<span id="navLevel">1</span></span>
+        </div>
+        <div class="user-avatar" onclick="window.location.href='/learn/profile'"><span>👤</span></div>
+    </div>
+</nav>
+
+<main class="main-content">
+    <div class="profile-header">
+        <div class="profile-card">
+            <div class="profile-avatar">👤</div>
+            <div class="profile-info">
+                <h2 id="profileNickname">IDENTITY_LOADING...</h2>
+                <p id="profileUsername">@username</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">> LOGOUT</button>
+        </div>
+    </div>
+
+    <div class="profile-stats-grid">
+        <div class="pstat-card">
+            <div class="pstat-icon">⭐</div>
+            <div class="pstat-value" id="pstatLevel">1</div>
+            <div class="pstat-label">LEVEL</div>
+        </div>
+        <div class="pstat-card">
+            <div class="pstat-icon">✨</div>
+            <div class="pstat-value" id="pstatExp">0</div>
+            <div class="pstat-label">EXP</div>
+        </div>
+        <div class="pstat-card">
+            <div class="pstat-icon">¥</div>
+            <div class="pstat-value" id="pstatCoins">500</div>
+            <div class="pstat-label">CREDITS</div>
+        </div>
+        <div class="pstat-card">
+            <div class="pstat-icon">🔥</div>
+            <div class="pstat-value" id="pstatStreak">0</div>
+            <div class="pstat-label">STREAK</div>
+        </div>
+    </div>
+
+    <div class="exp-section">
+        <div class="exp-label">
+            <span>LEVEL_PROGRESS</span>
+            <span id="expText">0 / 100 EXP</span>
+        </div>
+        <div class="exp-bar">
+            <div class="exp-bar-fill" id="expFill" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <div class="achievements-section">
+        <h3>> ACHIEVEMENTS</h3>
+        <div class="achievements-grid" id="achievementsGrid">
+            <div class="empty-hint">// LOADING_ACHIEVEMENTS...</div>
+        </div>
+    </div>
+
+    <div class="coin-log-section">
+        <h3>> TRANSACTION_LOG</h3>
+        <div class="coin-log-list" id="coinLogList">
+            <div class="empty-hint">// NO_TRANSACTIONS</div>
+        </div>
+    </div>
+</main>
+
+<script th:src="@{/js/profile.js}"></script>
+</body>
+</html>

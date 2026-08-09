@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sekai.learn.mapper.SekaiLearnAnimeClipMapper">
+
+    <resultMap id="AnimeClipResultMap" type="com.sekai.learn.dataobject.SekaiLearnAnimeClipDO">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="anime_name" property="animeName"/>
+        <result column="episode" property="episode"/>
+        <result column="video_url" property="videoUrl"/>
+        <result column="subtitle_json" property="subtitleJson"/>
+        <result column="difficulty" property="difficulty"/>
+        <result column="tags_json" property="tagsJson"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="enabled" property="enabled"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <select id="findById" resultMap="AnimeClipResultMap">
+        SELECT * FROM sekai_learning_anime_clips WHERE id = #{id}
+    </select>
+
+    <select id="findAllEnabled" resultMap="AnimeClipResultMap">
+        SELECT * FROM sekai_learning_anime_clips WHERE enabled = TRUE ORDER BY created_at DESC
+    </select>
+
+    <select id="findByDifficulty" resultMap="AnimeClipResultMap">
+        SELECT * FROM sekai_learning_anime_clips WHERE enabled = TRUE AND difficulty = #{difficulty} ORDER BY created_at DESC
+    </select>
+
+    <insert id="insert" parameterType="com.sekai.learn.dataobject.SekaiLearnAnimeClipDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sekai_learning_anime_clips (title, anime_name, episode, video_url, subtitle_json,
+            difficulty, tags_json, view_count, enabled, created_at)
+        VALUES (#{title}, #{animeName}, #{episode}, #{videoUrl}, #{subtitleJson},
+            #{difficulty}, #{tagsJson}, #{viewCount}, #{enabled}, NOW())
+    </insert>
+
+    <update id="updateViewCount">
+        UPDATE sekai_learning_anime_clips SET view_count = view_count + 1 WHERE id = #{id}
+    </update>
+
+</mapper>

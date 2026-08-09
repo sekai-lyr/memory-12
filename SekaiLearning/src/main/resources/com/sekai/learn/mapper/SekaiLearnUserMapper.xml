@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sekai.learn.mapper.SekaiLearnUserMapper">
+
+    <resultMap id="UserResultMap" type="com.sekai.learn.dataobject.SekaiLearnUserDO">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="exp_points" property="expPoints"/>
+        <result column="level" property="level"/>
+        <result column="coins" property="coins"/>
+        <result column="streak_days" property="streakDays"/>
+        <result column="last_checkin_date" property="lastCheckinDate"/>
+        <result column="favorites_json" property="favoritesJson"/>
+        <result column="settings_json" property="settingsJson"/>
+        <result column="last_login_at" property="lastLoginAt"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findById" resultMap="UserResultMap">
+        SELECT * FROM sekai_learning_users WHERE id = #{id}
+    </select>
+
+    <select id="findByUsername" resultMap="UserResultMap">
+        SELECT * FROM sekai_learning_users WHERE username = #{username}
+    </select>
+
+    <select id="existsByUsername" resultType="int">
+        SELECT COUNT(*) FROM sekai_learning_users WHERE username = #{username}
+    </select>
+
+    <insert id="insert" parameterType="com.sekai.learn.dataobject.SekaiLearnUserDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sekai_learning_users (username, password, nickname, avatar, exp_points, level, coins,
+            streak_days, last_checkin_date, favorites_json, settings_json, last_login_at, created_at, updated_at)
+        VALUES (#{username}, #{password}, #{nickname}, #{avatar}, #{expPoints}, #{level}, #{coins},
+            #{streakDays}, #{lastCheckinDate}, #{favoritesJson}, #{settingsJson}, #{lastLoginAt}, NOW(), NOW())
+    </insert>
+
+    <update id="update" parameterType="com.sekai.learn.dataobject.SekaiLearnUserDO">
+        UPDATE sekai_learning_users
+        <set>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="expPoints != null">exp_points = #{expPoints},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="coins != null">coins = #{coins},</if>
+            <if test="streakDays != null">streak_days = #{streakDays},</if>
+            <if test="lastCheckinDate != null">last_checkin_date = #{lastCheckinDate},</if>
+            <if test="favoritesJson != null">favorites_json = #{favoritesJson},</if>
+            <if test="settingsJson != null">settings_json = #{settingsJson},</if>
+            <if test="lastLoginAt != null">last_login_at = #{lastLoginAt},</if>
+            updated_at = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="findAll" resultMap="UserResultMap">
+        SELECT * FROM sekai_learning_users ORDER BY level DESC, exp_points DESC
+    </select>
+
+    <update id="updateExpAndLevel">
+        UPDATE sekai_learning_users SET exp_points = #{expPoints}, level = #{level}, updated_at = NOW() WHERE id = #{id}
+    </update>
+
+    <update id="updateCoins">
+        UPDATE sekai_learning_users SET coins = #{coins}, updated_at = NOW() WHERE id = #{id}
+    </update>
+
+    <update id="updateCheckin">
+        UPDATE sekai_learning_users SET streak_days = #{streakDays}, last_checkin_date = #{lastCheckinDate}, updated_at = NOW() WHERE id = #{id}
+    </update>
+
+</mapper>

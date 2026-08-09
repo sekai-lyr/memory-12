@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sekai.learn.mapper.SekaiLearnLessonMapper">
+
+    <resultMap id="LessonResultMap" type="com.sekai.learn.dataobject.SekaiLearnLessonDO">
+        <id column="id" property="id"/>
+        <result column="course_id" property="courseId"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="summary" property="summary"/>
+        <result column="key_points" property="keyPoints"/>
+        <result column="difficulty" property="difficulty"/>
+        <result column="estimated_minutes" property="estimatedMinutes"/>
+        <result column="sort_order" property="sortOrder"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <select id="findByCourseId" resultMap="LessonResultMap">
+        SELECT * FROM sekai_learning_lessons WHERE course_id = #{courseId} ORDER BY sort_order
+    </select>
+
+    <select id="findById" resultMap="LessonResultMap">
+        SELECT * FROM sekai_learning_lessons WHERE id = #{id}
+    </select>
+
+</mapper>

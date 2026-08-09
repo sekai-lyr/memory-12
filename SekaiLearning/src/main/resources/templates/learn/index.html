@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sekai Learning // 二次元学习平台</title>
+    <link rel="stylesheet" th:href="@{/css/learn.css}">
+</head>
+<body>
+<div class="app-bg"></div>
+
+<nav class="navbar">
+    <div class="nav-brand">
+        <span class="brand-icon">🔮</span>
+        <span class="brand-text">SEKAI LEARNING</span>
+    </div>
+    <div class="nav-links">
+        <a href="/learn" class="nav-link active">// HOME</a>
+        <a href="/learn/courses" class="nav-link">// COURSES</a>
+        <a href="/learn/paper" class="nav-link">// Paper2Gal</a>
+        <a href="/learn/anime" class="nav-link">// ANIME</a>
+        <a href="/learn/community" class="nav-link">// COMMUNITY</a>
+    </div>
+    <div class="nav-user">
+        <div class="user-stats">
+            <span class="stat-item">¥ <span id="navCoins">500</span></span>
+            <span class="stat-item">LV.<span id="navLevel">1</span></span>
+        </div>
+        <div class="user-avatar" id="userAvatar" onclick="window.location.href='/learn/profile'">
+            <span>👤</span>
+        </div>
+    </div>
+</nav>
+
+<main class="main-content">
+    <section class="hero-section">
+        <div class="hero-card">
+            <h1>&gt; 欢迎来到 <span class="highlight">SEKAI LEARNING</span></h1>
+            <p class="hero-desc">ここで、学習は退屈なタスクではなく、セカイを巡る冒険だ</p>
+            <div class="hero-features">
+                <div class="feature-card" onclick="window.location.href='/learn/courses'">
+                    <div class="feature-icon">🎓</div>
+                    <h3>[ 学习中心 ]</h3>
+                    <p>多学科课程·测验·奖励</p>
+                </div>
+                <div class="feature-card" onclick="window.location.href='/learn/paper'">
+                    <div class="feature-icon">📚</div>
+                    <h3>[ Paper2Gal ]</h3>
+                    <p>论文/教材变身Galgame</p>
+                </div>
+                <div class="feature-card" onclick="window.location.href='/learn/anime'">
+                    <div class="feature-icon">🎬</div>
+                    <h3>[ 动漫语感 ]</h3>
+                    <p>沉浸式日语学习</p>
+                </div>
+                <div class="feature-card" onclick="showCheckin()">
+                    <div class="feature-icon">🎮</div>
+                    <h3>[ 每日签到 ]</h3>
+                    <p>坚持学习获奖励</p>
+                </div>
+                <div class="feature-card" onclick="window.location.href='/learn/community'">
+                    <div class="feature-icon">✨</div>
+                    <h3>[ 创作社群 ]</h3>
+                    <p>分享你的学习成果</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard-section">
+        <div class="section-title">
+            <h2>STATUS_PANEL</h2>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="statLevel">1</div>
+                <div class="stat-label">LEVEL</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statExp">0</div>
+                <div class="stat-label">EXP</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statStreak">0</div>
+                <div class="stat-label">STREAK</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statPapers">0</div>
+                <div class="stat-label">PAPERS</div>
+            </div>
+        </div>
+
+        <div class="exp-bar-container">
+            <div class="exp-bar-label">
+                <span>EXP_PROGRESS</span>
+                <span id="expProgress">0 / 100</span>
+            </div>
+            <div class="exp-bar">
+                <div class="exp-bar-fill" id="expBarFill" style="width: 0%"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="daily-tasks-section">
+        <div class="section-title">
+            <h2>DAILY_QUEST</h2>
+            <button class="checkin-btn" onclick="showCheckin()">> CHECK_IN</button>
+        </div>
+        <div class="tasks-list" id="tasksList">
+            <div class="task-item">
+                <span class="task-icon">🎓</span>
+                <span class="task-text">完成一节课</span>
+                <span class="task-reward">+30 EXP</span>
+            </div>
+            <div class="task-item">
+                <span class="task-icon">📝</span>
+                <span class="task-text">通过一次测验</span>
+                <span class="task-reward">+20 EXP</span>
+            </div>
+            <div class="task-item">
+                <span class="task-icon">✍️</span>
+                <span class="task-text">发布一篇创作</span>
+                <span class="task-reward">+25 EXP</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="characters-section">
+        <div class="section-title">
+            <h2>PARTY_MEMBERS</h2>
+        </div>
+        <div class="characters-grid">
+            <div class="character-card">
+                <div class="char-avatar">🎵</div>
+                <div class="char-name">初音未来</div>
+                <div class="char-series">VOCALOID</div>
+            </div>
+            <div class="character-card">
+                <div class="char-avatar">⛩️</div>
+                <div class="char-name">博丽灵梦</div>
+                <div class="char-series">东方Project</div>
+            </div>
+            <div class="character-card">
+                <div class="char-avatar">🐰</div>
+                <div class="char-name">铃仙</div>
+                <div class="char-series">东方Project</div>
+            </div>
+            <div class="character-card">
+                <div class="char-avatar">💙</div>
+                <div class="char-name">蕾姆</div>
+                <div class="char-series">Re:Zero</div>
+            </div>
+            <div class="character-card">
+                <div class="char-avatar">🧪</div>
+                <div class="char-name">牧濑红莉栖</div>
+                <div class="char-series">Steins;Gate</div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="checkin-modal" id="checkinModal" style="display:none;">
+    <div class="modal-overlay" onclick="hideCheckin()"></div>
+    <div class="modal-content">
+        <h3>&gt; DAILY_CHECK_IN</h3>
+        <div class="checkin-info">
+            <p>连续签到: <span id="checkinStreak">0</span> 天</p>
+            <p>签到奖励: <span id="checkinReward">+10</span> ¥</p>
+        </div>
+        <button class="checkin-confirm-btn" onclick="doCheckin()">> CONFIRM</button>
+    </div>
+</div>
+
+<script th:src="@{/js/learn.js}"></script>
+</body>
+</html>

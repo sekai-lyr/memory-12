@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动漫语感 | Sekai Learning</title>
+    <link rel="stylesheet" th:href="@{/css/learn.css}">
+    <link rel="stylesheet" th:href="@{/css/anime.css}">
+</head>
+<body>
+<div class="app-bg"></div>
+
+<nav class="navbar">
+    <div class="nav-brand">
+        <span class="brand-icon">🔮</span>
+        <span class="brand-text">SEKAI LEARNING</span>
+    </div>
+    <div class="nav-links">
+        <a href="/learn" class="nav-link">// HOME</a>
+        <a href="/learn/paper" class="nav-link">// Paper2Gal</a>
+        <a href="/learn/anime" class="nav-link active">// ANIME</a>
+        <a href="/learn/community" class="nav-link">// COMMUNITY</a>
+    </div>
+    <div class="nav-user">
+        <div class="user-stats">
+            <span class="stat-item">¥ <span id="navCoins">500</span></span>
+            <span class="stat-item">LV.<span id="navLevel">1</span></span>
+        </div>
+        <div class="user-avatar" onclick="window.location.href='/learn/profile'"><span>👤</span></div>
+    </div>
+</nav>
+
+<main class="main-content">
+    <div class="anime-header">
+        <h1>&gt; 🎬 アニメ没入型語感</h1>
+        <p>アニメをコーパスとして、シャドーイングで日本語力を向上</p>
+    </div>
+
+    <div class="difficulty-filter">
+        <button class="filter-btn active" onclick="filterClips('')">// ALL</button>
+        <button class="filter-btn" onclick="filterClips('N5')">// N5</button>
+        <button class="filter-btn" onclick="filterClips('N4')">// N4</button>
+        <button class="filter-btn" onclick="filterClips('N3')">// N3</button>
+        <button class="filter-btn" onclick="filterClips('N2')">// N2</button>
+        <button class="filter-btn" onclick="filterClips('N1')">// N1</button>
+    </div>
+
+    <div class="clips-grid" id="clipsGrid">
+        <div class="empty-hint">// LOADING_CLIPS...</div>
+    </div>
+
+    <div class="subtitle-modal" id="subtitleModal" style="display:none;">
+        <div class="modal-overlay" onclick="closeSubtitleModal()"></div>
+        <div class="modal-content subtitle-content">
+            <div class="subtitle-header">
+                <h3 id="clipTitle">// CLIP_TITLE</h3>
+                <button class="close-btn" onclick="closeSubtitleModal()">✕</button>
+            </div>
+            <div class="subtitle-area" id="subtitleArea"></div>
+            <div class="shadow-area">
+                <h4>&gt; シャドーイング</h4>
+                <p class="shadow-hint">Click play to listen, then mimic the character's voice and intonation</p>
+                <div class="shadow-controls">
+                    <button class="play-btn" onclick="playClip()">▶ PLAY</button>
+                    <button class="play-btn" onclick="playSlow()">🐢 SLOW</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script th:src="@{/js/anime.js}"></script>
+</body>
+</html>

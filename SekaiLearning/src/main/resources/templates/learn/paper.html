@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper2Gal | Sekai Learning</title>
+    <link rel="stylesheet" th:href="@{/css/learn.css}">
+    <link rel="stylesheet" th:href="@{/css/paper.css}">
+</head>
+<body>
+<div class="app-bg"></div>
+
+<nav class="navbar">
+    <div class="nav-brand">
+        <span class="brand-icon">🔮</span>
+        <span class="brand-text">SEKAI LEARNING</span>
+    </div>
+    <div class="nav-links">
+        <a href="/learn" class="nav-link">// HOME</a>
+        <a href="/learn/paper" class="nav-link active">// Paper2Gal</a>
+        <a href="/learn/anime" class="nav-link">// ANIME</a>
+        <a href="/learn/community" class="nav-link">// COMMUNITY</a>
+    </div>
+    <div class="nav-user">
+        <div class="user-stats">
+            <span class="stat-item">¥ <span id="navCoins">500</span></span>
+            <span class="stat-item">LV.<span id="navLevel">1</span></span>
+        </div>
+        <div class="user-avatar" onclick="window.location.href='/learn/profile'"><span>👤</span></div>
+    </div>
+</nav>
+
+<main class="main-content">
+    <div class="paper-header">
+        <h1>&gt; 📚 Paper2Gal</h1>
+        <p>論文を面白いギャルゲーム会話に変換する</p>
+    </div>
+
+    <div class="paper-layout">
+        <div class="paper-sidebar">
+            <div class="upload-card">
+                <h3>>_ UPLOAD_PAPER</h3>
+                <div class="upload-form">
+                    <div class="input-group">
+                        <label>> TITLE</label>
+                        <input type="text" id="paperTitle" placeholder="Enter paper title...">
+                    </div>
+                    <div class="input-group">
+                        <label>> CHARACTER</label>
+                        <select id="characterSelect">
+                            <option value="">Select narrator...</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>> CONTENT</label>
+                        <textarea id="paperContent" placeholder="Paste paper content..." rows="8"></textarea>
+                    </div>
+                    <div class="draft-status" id="draftStatus" aria-live="polite"></div>
+                    <button class="submit-btn" onclick="uploadPaper()">> UPLOAD_&_GENERATE</button>
+                </div>
+            </div>
+
+            <div class="paper-list-card">
+                <h3>> MY_PAPERS</h3>
+                <div class="paper-list" id="paperList">
+                    <div class="empty-hint">// NO_PAPERS_FOUND</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="galgame-area">
+            <div class="galgame-container" id="galgameContainer">
+                <div class="galgame-empty">
+                    <div class="empty-icon">🎮</div>
+                    <p>Select a paper to start Galgame learning</p>
+                    <p class="empty-sub">キャラクターがダイアログで知識を教えます</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script th:src="@{/js/paper.js}"></script>
+</body>
+</html>

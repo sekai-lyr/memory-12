@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sekai.learn.mapper.SekaiLearnCommentMapper">
+
+    <resultMap id="CommentResultMap" type="com.sekai.learn.dataobject.SekaiLearnCommentDO">
+        <id column="id" property="id"/>
+        <result column="creation_id" property="creationId"/>
+        <result column="user_id" property="userId"/>
+        <result column="content" property="content"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <select id="findByCreationId" resultMap="CommentResultMap">
+        SELECT * FROM sekai_learning_comments WHERE creation_id = #{creationId} ORDER BY created_at ASC
+    </select>
+
+    <insert id="insert" parameterType="com.sekai.learn.dataobject.SekaiLearnCommentDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sekai_learning_comments (creation_id, user_id, content, parent_id, created_at)
+        VALUES (#{creationId}, #{userId}, #{content}, #{parentId}, NOW())
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM sekai_learning_comments WHERE id = #{id}
+    </delete>
+
+</mapper>

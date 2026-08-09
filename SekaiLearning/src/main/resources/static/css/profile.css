@@ -1,0 +1,104 @@
+.profile-header{margin-bottom:30px}
+
+/* ══════ Profile Card - Neon ID Card ══════ */
+.profile-card{
+    background:var(--bg-card);border:1px solid var(--border-neon);border-radius:20px;
+    padding:30px;display:flex;align-items:center;gap:24px;position:relative;overflow:hidden;
+    box-shadow:0 0 30px rgba(179,0,255,.06)
+}
+.profile-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--neon-cyan),var(--neon-purple),var(--neon-pink),transparent);
+    animation:neonSweep 4s linear infinite
+}
+.profile-card::after{
+    content:'';position:absolute;top:15px;right:20px;font-family:var(--font-jp);
+    font-size:60px;color:rgba(179,0,255,.03);pointer-events:none
+}
+.profile-avatar{
+    width:92px;height:92px;border-radius:50%;
+    background:linear-gradient(135deg,rgba(179,0,255,.15),rgba(0,229,255,.1));
+    border:2px solid rgba(179,0,255,.35);display:flex;align-items:center;
+    justify-content:center;font-size:46px;flex-shrink:0;transition:var(--transition);
+    box-shadow:0 0 25px rgba(179,0,255,.2)
+}
+.profile-avatar:hover{transform:scale(1.06);border-color:rgba(0,229,255,.5);box-shadow:0 0 35px rgba(0,229,255,.25)}
+.profile-info{flex:1}
+.profile-info h2{font-size:26px;font-weight:700;margin-bottom:6px;letter-spacing:1px}
+.profile-info p{color:var(--text-dim);font-size:14px;font-family:var(--font-mono)}
+.logout-btn{
+    background:rgba(255,51,85,.06);border:1.5px solid rgba(255,51,85,.2);
+    color:var(--neon-red);padding:10px 24px;border-radius:10px;font-size:13px;
+    font-weight:600;cursor:pointer;letter-spacing:1px;transition:var(--transition)
+}
+.logout-btn:hover{background:rgba(255,51,85,.12);border-color:rgba(255,51,85,.4);box-shadow:0 0 20px rgba(255,51,85,.2);transform:translateY(-1px)}
+
+/* ══════ Stats Grid ══════ */
+.profile-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.pstat-card{
+    background:var(--bg-card);border:1px solid var(--border-neon);border-radius:16px;
+    padding:26px 20px;text-align:center;transition:var(--transition);position:relative;overflow:hidden
+}
+.pstat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--neon-cyan),transparent);opacity:.2;transition:var(--transition)}
+.pstat-card:hover{border-color:var(--neon-cyan);transform:translateY(-3px);box-shadow:0 0 25px rgba(0,229,255,.1)}
+.pstat-card:hover::before{opacity:1}
+.pstat-icon{font-size:28px;margin-bottom:10px}
+.pstat-value{
+    font-size:30px;font-weight:800;
+    background:linear-gradient(135deg,var(--neon-cyan),var(--neon-purple));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    line-height:1.2
+}
+.pstat-label{font-size:11px;color:var(--text-dim);margin-top:6px;letter-spacing:1px;text-transform:uppercase}
+
+/* ══════ Exp Section ══════ */
+.exp-section{
+    background:var(--bg-card);border:1px solid var(--border-neon);border-radius:16px;
+    padding:22px 24px;margin-bottom:24px
+}
+.exp-label{display:flex;justify-content:space-between;font-size:13px;color:var(--text-dim);margin-bottom:12px}
+.exp-bar{height:12px;background:rgba(0,0,0,.3);border-radius:6px;overflow:hidden}
+.exp-bar-fill{
+    height:100%;background:linear-gradient(90deg,var(--neon-purple),var(--neon-cyan),var(--neon-pink));
+    background-size:200% 100%;border-radius:6px;transition:width .8s cubic-bezier(.4,0,.2,1);
+    position:relative;animation:barGlow 3s linear infinite
+}
+.exp-bar-fill::after{content:'';position:absolute;top:0;right:0;bottom:0;width:40px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25));border-radius:0 6px 6px 0}
+@keyframes barGlow{0%{background-position:0 0}100%{background-position:200% 0}}
+
+/* ══════ Achievements ══════ */
+.achievements-section,.coin-log-section{margin-bottom:24px}
+.achievements-section h3,.coin-log-section h3{font-size:17px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px;letter-spacing:1px}
+.achievements-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.achievement-card{
+    background:var(--bg-card);border:1px solid var(--border-neon);border-radius:14px;
+    padding:18px;display:flex;align-items:center;gap:14px;opacity:.4;
+    transition:var(--transition);filter:grayscale(.6);position:relative;overflow:hidden
+}
+.achievement-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--neon-cyan),transparent);opacity:0;transition:var(--transition)}
+.achievement-card.unlocked{opacity:1;border-color:rgba(0,229,255,.25);filter:none;
+    box-shadow:0 0 20px rgba(0,229,255,.08)}
+.achievement-card.unlocked::before{opacity:1}
+.achievement-card.unlocked:hover{border-color:rgba(0,229,255,.5);transform:translateY(-2px);box-shadow:0 0 30px rgba(0,229,255,.15)}
+.ach-icon{font-size:34px;flex-shrink:0}
+.ach-info{flex:1;min-width:0}
+.ach-name{font-size:14px;font-weight:700;margin-bottom:3px}
+.ach-desc{font-size:12px;color:var(--text-dim);line-height:1.4}
+
+/* ══════ Coin Log ══════ */
+.coin-log-list{display:flex;flex-direction:column;gap:8px}
+.coin-log-item{
+    background:var(--bg-card);border:1px solid var(--border-neon);border-radius:10px;
+    padding:14px 18px;display:flex;justify-content:space-between;align-items:center;
+    font-size:14px;transition:var(--transition);position:relative;overflow:hidden
+}
+.coin-log-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--neon-cyan);opacity:0;transition:var(--transition)}
+.coin-log-item:hover{border-color:rgba(0,229,255,.25);transform:translateX(3px)}
+.coin-log-item:hover::before{opacity:.5}
+.coin-amount{font-weight:700;font-size:15px;letter-spacing:.5px}
+.coin-positive{color:var(--neon-green)}
+.coin-negative{color:var(--neon-red)}
+.coin-reason{color:var(--text-dim);font-size:13px}
+
+@media(max-width:768px){.profile-stats-grid{grid-template-columns:repeat(2,1fr)}.achievements-grid{grid-template-columns:repeat(2,1fr)}.profile-card{flex-direction:column;text-align:center}}
+@media(max-width:480px){.achievements-grid{grid-template-columns:1fr}}

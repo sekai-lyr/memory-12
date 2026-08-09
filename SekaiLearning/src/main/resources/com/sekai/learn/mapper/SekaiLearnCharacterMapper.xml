@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sekai.learn.mapper.SekaiLearnCharacterMapper">
+
+    <resultMap id="CharacterResultMap" type="com.sekai.learn.model.Character">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="series" property="series"/>
+        <result column="personality" property="personality"/>
+        <result column="avatar" property="avatar"/>
+        <result column="voice_style" property="voiceStyle"/>
+        <result column="greeting" property="greeting"/>
+        <result column="enabled" property="enabled"/>
+    </resultMap>
+
+    <select id="findById" resultMap="CharacterResultMap">
+        SELECT * FROM sekai_learning_characters WHERE id = #{id}
+    </select>
+
+    <select id="findAllEnabled" resultMap="CharacterResultMap">
+        SELECT * FROM sekai_learning_characters WHERE enabled = TRUE
+    </select>
+
+    <insert id="insert" parameterType="com.sekai.learn.model.Character">
+        INSERT INTO sekai_learning_characters (id, name, series, personality, avatar, voice_style, greeting, enabled)
+        VALUES (#{id}, #{name}, #{series}, #{personality}, #{avatar}, #{voiceStyle}, #{greeting}, #{enabled})
+    </insert>
+
+    <update id="update" parameterType="com.sekai.learn.model.Character">
+        UPDATE sekai_learning_characters
+        SET name = #{name}, series = #{series}, personality = #{personality}, avatar = #{avatar},
+            voice_style = #{voiceStyle}, greeting = #{greeting}, enabled = #{enabled}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

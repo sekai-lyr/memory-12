@@ -1,0 +1,309 @@
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+    --neon-purple:#b300ff;
+    --neon-cyan:#00e5ff;
+    --neon-pink:#ff00aa;
+    --neon-blue:#0066ff;
+    --neon-yellow:#ffd700;
+    --neon-green:#00ff66;
+    --neon-red:#ff3355;
+    --bg-deep:#060612;
+    --bg-panel:rgba(8,8,26,.92);
+    --bg-input:rgba(6,6,24,.85);
+    --border-neon:rgba(179,0,255,.35);
+    --border-cyan:rgba(0,229,255,.3);
+    --text-bright:#f0e8ff;
+    --text-dim:#7a7ab0;
+    --text-cyan:#00e5ff;
+    --text-pink:#ff00aa;
+    --glow-purple:0 0 20px rgba(179,0,255,.4),0 0 60px rgba(179,0,255,.1);
+    --glow-cyan:0 0 20px rgba(0,229,255,.4),0 0 60px rgba(0,229,255,.1);
+    --glow-pink:0 0 20px rgba(255,0,170,.4),0 0 60px rgba(255,0,170,.1);
+    --radius:16px;
+    --radius-sm:10px;
+    --transition:.3s cubic-bezier(.4,0,.2,1);
+    --font-main:'Segoe UI','Microsoft YaHei','PingFang SC',sans-serif;
+    --font-mono:'Cascadia Code','Consolas','Courier New',monospace;
+    --font-jp:'Yu Gothic','MS Gothic','Hiragino Sans',sans-serif
+}
+
+body{
+    font-family:var(--font-main);
+    background:var(--bg-deep);
+    color:var(--text-bright);
+    min-height:100vh;
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased
+}
+
+/* ══════ Scanline Overlay ══════ */
+body::after{
+    content:'';
+    position:fixed;inset:0;z-index:9999;pointer-events:none;
+    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
+    opacity:.3
+}
+
+/* ══════ Background ══════ */
+.auth-bg{
+    position:fixed;inset:0;z-index:0;
+    background:radial-gradient(ellipse at 20% 50%,rgba(179,0,255,.08) 0,transparent 60%),
+               radial-gradient(ellipse at 80% 20%,rgba(255,0,170,.06) 0,transparent 60%),
+               radial-gradient(ellipse at 50% 80%,rgba(0,229,255,.06) 0,transparent 60%),
+               #060612
+}
+.auth-bg::before{
+    content:'';position:absolute;inset:0;
+    background-image:
+        linear-gradient(rgba(179,0,255,.03) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(179,0,255,.03) 1px,transparent 1px);
+    background-size:60px 60px;
+    animation:gridScroll 20s linear infinite
+}
+.auth-bg::after{
+    content:'';position:absolute;inset:0;
+    background:
+        radial-gradient(1px 1px at 10% 20%,rgba(0,229,255,.3),transparent),
+        radial-gradient(1px 1px at 30% 60%,rgba(255,0,170,.2),transparent),
+        radial-gradient(1px 1px at 50% 10%,rgba(0,229,255,.25),transparent),
+        radial-gradient(1px 1px at 70% 80%,rgba(179,0,255,.2),transparent),
+        radial-gradient(1px 1px at 90% 40%,rgba(0,229,255,.2),transparent),
+        radial-gradient(1.5px 1.5px at 15% 75%,rgba(179,0,255,.35),transparent),
+        radial-gradient(1.5px 1.5px at 85% 15%,rgba(255,0,170,.3),transparent);
+    animation:starTwinkle 4s ease-in-out infinite alternate
+}
+
+@keyframes gridScroll{0%{transform:translateY(0)}100%{transform:translateY(60px)}}
+@keyframes starTwinkle{0%{opacity:.5}100%{opacity:1}}
+
+/* ══════ Neon Particles ══════ */
+.auth-particles{
+    position:absolute;inset:0;overflow:hidden
+}
+.auth-particles::before,
+.auth-particles::after{
+    content:'✦ ◆ ◈ ◇ ✦ ◆ ◈ ◇ ✦ ◆ ◈ ◇ ✦ ◆ ◈ ◇';
+    position:absolute;font-size:14px;color:rgba(179,0,255,.06);white-space:nowrap;
+    letter-spacing:40px;animation:particleFloat 20s linear infinite
+}
+.auth-particles::after{
+    font-size:18px;color:rgba(0,229,255,.05);animation-duration:25s;animation-delay:-8s
+}
+@keyframes particleFloat{
+    0%{transform:translate(-50%,110vh) rotate(0)}
+    100%{transform:translate(-50%,-10vh) rotate(360deg)}
+}
+
+/* ══════ Katakana Floating Background ══════ */
+.floating-chars{position:absolute;inset:0;pointer-events:none}
+.float-char{
+    position:absolute;font-size:28px;font-family:var(--font-jp);opacity:.08;
+    animation:floatUp 18s linear infinite;filter:blur(.5px)
+}
+.char-1{left:8%;animation-delay:0s;color:var(--neon-purple)}
+.char-2{left:28%;animation-delay:-4s;color:var(--neon-pink)}
+.char-3{left:55%;animation-delay:-8s;color:var(--neon-cyan)}
+.char-4{left:80%;animation-delay:-12s;color:var(--neon-purple)}
+@keyframes floatUp{
+    0%{transform:translateY(110vh) rotate(0) scale(.7);opacity:0}
+    10%{opacity:.1}
+    50%{transform:translateY(50vh) rotate(180deg) scale(1)}
+    90%{opacity:.1}
+    100%{transform:translateY(-10vh) rotate(360deg) scale(.7);opacity:0}
+}
+
+/* ══════ Container ══════ */
+.auth-container{
+    position:relative;z-index:1;display:flex;justify-content:center;align-items:center;
+    min-height:100vh;padding:20px
+}
+
+/* ══════ Card - Holographic Cyberpunk ══════ */
+.auth-card{
+    background:var(--bg-panel);
+    backdrop-filter:blur(30px);
+    -webkit-backdrop-filter:blur(30px);
+    border:1px solid var(--border-neon);
+    border-radius:28px;padding:48px 40px;width:100%;max-width:440px;
+    box-shadow:var(--glow-purple),0 8px 64px rgba(0,0,0,.5);
+    animation:cardIn .6s cubic-bezier(.16,1,.3,1);
+    position:relative;overflow:hidden
+}
+.auth-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--neon-purple),var(--neon-cyan),var(--neon-pink),transparent);
+    animation:neonBar 3s linear infinite
+}
+.auth-card::after{
+    content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--neon-pink),var(--neon-cyan),var(--neon-purple),transparent);
+    animation:neonBar 3s linear infinite reverse
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(40px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes neonBar{0%{opacity:.3}50%{opacity:1}100%{opacity:.3}}
+
+/* ══════ Corner Decorations ══════ */
+.auth-card .corner-decoration{display:none}
+
+/* ══════ Logo - Glitch Effect ══════ */
+.auth-logo{text-align:center;margin-bottom:28px}
+.logo-icon{margin-bottom:16px;animation:logoFloat 3s ease-in-out infinite;display:inline-block}
+.logo-icon svg{filter:drop-shadow(0 0 12px rgba(179,0,255,.5))}
+@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+.auth-logo h1{
+    font-size:34px;font-weight:800;
+    background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple),var(--neon-pink));
+    background-size:200% auto;
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    margin-bottom:6px;letter-spacing:2px;
+    animation:gradientShift 4s linear infinite;
+    text-shadow:none
+}
+@keyframes gradientShift{0%{background-position:0 center}100%{background-position:200% center}}
+
+.auth-logo .subtitle{
+    color:var(--text-cyan);font-size:14px;margin-bottom:4px;font-family:var(--font-jp);
+    letter-spacing:4px;text-transform:uppercase
+}
+.auth-logo .tagline{
+    color:rgba(255,255,255,.25);font-size:11px;letter-spacing:6px;text-transform:uppercase
+}
+
+/* ══════ Tabs - Neon Pipeline ══════ */
+.auth-tabs{
+    display:flex;gap:0;margin-bottom:28px;border-radius:var(--radius-sm);
+    background:rgba(0,0,0,.3);padding:4px;border:1px solid rgba(179,0,255,.15)
+}
+.auth-tab{
+    flex:1;border:none;background:transparent;color:var(--text-dim);padding:11px;
+    border-radius:8px;font-size:14px;cursor:pointer;transition:var(--transition);
+    font-weight:600;letter-spacing:1px;position:relative;overflow:hidden
+}
+.auth-tab::before{
+    content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--neon-purple),var(--neon-cyan));
+    opacity:0;transition:var(--transition)
+}
+.auth-tab.active{
+    background:linear-gradient(135deg,var(--neon-purple),var(--neon-cyan));
+    color:#fff;box-shadow:0 0 20px rgba(179,0,255,.4),0 0 40px rgba(0,229,255,.2)
+}
+.auth-tab.active::before{opacity:1}
+.auth-tab:hover:not(.active){color:var(--text-bright);background:rgba(179,0,255,.08)}
+
+/* ══════ Form ══════ */
+.auth-form{display:flex;flex-direction:column;gap:18px}
+.input-group{display:flex;flex-direction:column;gap:6px}
+.input-group label{
+    font-size:12px;color:var(--text-cyan);font-weight:500;padding-left:2px;
+    letter-spacing:2px;text-transform:uppercase;font-family:var(--font-mono)
+}
+.input-wrapper{position:relative;display:flex;align-items:center}
+.input-icon{position:absolute;left:14px;font-size:16px;z-index:1;transition:var(--transition)}
+
+.input-wrapper input{
+    width:100%;padding:14px 16px 14px 44px;border-radius:12px;
+    border:1.5px solid var(--border-neon);
+    background:var(--bg-input);color:var(--text-bright);font-size:15px;
+    outline:none;transition:var(--transition);font-family:var(--font-main)
+}
+.input-wrapper input:focus{
+    border-color:var(--neon-cyan);
+    box-shadow:0 0 0 3px rgba(0,229,255,.08),0 0 20px rgba(0,229,255,.15);
+    background:rgba(6,6,24,.95)
+}
+.input-wrapper input::placeholder{color:rgba(255,255,255,.15)}
+.input-wrapper input:disabled{opacity:.5;cursor:not-allowed}
+.input-wrapper input:focus+.input-icon,
+.input-wrapper input:focus~.input-icon{transform:scale(1.15)}
+
+/* ══════ Error ══════ */
+.error-msg{
+    color:var(--neon-red);font-size:13px;min-height:20px;text-align:center;
+    transition:var(--transition);text-shadow:0 0 10px rgba(255,51,85,.3)
+}
+.error-msg.shake{animation:shake .4s ease-in-out}
+@keyframes shake{
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-6px)}
+    40%{transform:translateX(6px)}
+    60%{transform:translateX(-4px)}
+    80%{transform:translateX(4px)}
+}
+
+/* ══════ Button - Neon Synthwave ══════ */
+.auth-btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    padding:15px;border-radius:12px;border:none;
+    background:linear-gradient(135deg,var(--neon-purple),var(--neon-cyan));
+    color:#fff;font-size:16px;font-weight:700;cursor:pointer;
+    transition:var(--transition);margin-top:8px;position:relative;overflow:hidden;
+    letter-spacing:1px;text-transform:uppercase;
+    box-shadow:0 0 20px rgba(179,0,255,.3)
+}
+.auth-btn::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,transparent,rgba(255,255,255,.1),transparent);
+    transform:translateX(-100%);transition:transform .5s
+}
+.auth-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 30px rgba(179,0,255,.5),0 0 60px rgba(0,229,255,.3)
+}
+.auth-btn:hover::before{transform:translateX(100%)}
+.auth-btn:active{transform:translateY(0);box-shadow:0 0 15px rgba(179,0,255,.3)}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.auth-btn .spinner{
+    display:none;width:20px;height:20px;
+    border:2px solid rgba(255,255,255,.2);border-top-color:#fff;
+    border-radius:50%;animation:spin .6s linear infinite
+}
+.auth-btn.loading .btn-text{display:none}
+.auth-btn.loading .btn-arrow{display:none}
+.auth-btn.loading .spinner{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.btn-arrow{transition:transform var(--transition)}
+.auth-btn:hover .btn-arrow{transform:translateX(4px)}
+
+/* ══════ Footer ══════ */
+.auth-footer{text-align:center;margin-top:24px;padding-top:20px;border-top:1px solid rgba(179,0,255,.1)}
+.auth-footer a{
+    color:var(--neon-cyan);text-decoration:none;font-size:14px;
+    transition:var(--transition);position:relative;letter-spacing:1px
+}
+.auth-footer a::after{
+    content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;
+    background:var(--neon-pink);transition:width var(--transition);
+    box-shadow:0 0 10px var(--neon-pink)
+}
+.auth-footer a:hover{color:var(--neon-pink)}
+.auth-footer a:hover::after{width:100%}
+
+/* ══════ Feature Hints - Data Stream Cards ══════ */
+.feature-hints{margin-top:24px;display:flex;flex-direction:column;gap:8px}
+.hint{
+    display:flex;align-items:center;gap:10px;padding:11px 14px;
+    background:rgba(0,229,255,.03);border:1px solid rgba(0,229,255,.1);border-radius:10px;
+    font-size:13px;color:var(--text-dim);transition:var(--transition);
+    position:relative;overflow:hidden
+}
+.hint::before{
+    content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+    background:var(--neon-cyan);box-shadow:0 0 10px rgba(0,229,255,.4);
+    opacity:0;transition:var(--transition)
+}
+.hint:hover{
+    background:rgba(0,229,255,.06);border-color:rgba(0,229,255,.2);
+    color:var(--text-bright);transform:translateX(4px)
+}
+.hint:hover::before{opacity:1}
+.hint-icon{font-size:18px;flex-shrink:0}
+
+/* ══════ Responsive ══════ */
+@media(max-width:480px){
+    .auth-card{padding:36px 24px;border-radius:20px}
+    .auth-logo h1{font-size:28px}
+}

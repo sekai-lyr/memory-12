@@ -1,0 +1,134 @@
+.paper-header{text-align:center;margin-bottom:30px}
+.paper-header h1{font-size:30px;font-weight:700;margin-bottom:8px;letter-spacing:2px}
+.paper-header p{color:var(--text-dim);font-size:14px;letter-spacing:1px}
+
+.paper-layout{display:grid;grid-template-columns:360px 1fr;gap:24px;min-height:calc(100vh - 200px)}
+
+/* ══════ Sidebar ══════ */
+.paper-sidebar{display:flex;flex-direction:column;gap:20px}
+.upload-card,.paper-list-card{
+    background:var(--bg-card);border:1px solid var(--border-neon);
+    border-radius:18px;padding:24px;position:relative;overflow:hidden
+}
+.upload-card::before,.paper-list-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--neon-cyan),var(--neon-purple),transparent);animation:neonSweep 3s linear infinite
+}
+
+.upload-card h3,.paper-list-card h3{font-size:16px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px;letter-spacing:1px}
+.upload-form{display:flex;flex-direction:column;gap:14px}
+.upload-form .input-group{display:flex;flex-direction:column;gap:6px}
+.upload-form label{font-size:12px;color:var(--text-cyan);font-weight:500;padding-left:2px;letter-spacing:1px;font-family:var(--font-mono)}
+.upload-form input,.upload-form select,.upload-form textarea{
+    padding:11px 14px;border-radius:10px;border:1.5px solid var(--border-neon);
+    background:var(--bg-input);color:var(--text-bright);font-size:14px;
+    outline:none;resize:vertical;transition:var(--transition);font-family:inherit
+}
+.upload-form input:focus,.upload-form select:focus,.upload-form textarea:focus{
+    border-color:var(--neon-cyan);box-shadow:0 0 0 3px rgba(0,229,255,.06),0 0 15px rgba(0,229,255,.1);
+    background:rgba(6,6,24,.95)
+}
+.upload-form select option{background:#12122a;color:var(--text-bright)}
+
+.submit-btn{
+    background:linear-gradient(135deg,var(--neon-purple),var(--neon-cyan));
+    color:#fff;border:none;padding:13px;border-radius:10px;font-size:14px;
+    font-weight:700;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;
+    letter-spacing:1px;box-shadow:0 0 15px rgba(179,0,255,.2)
+}
+.submit-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);opacity:0;transition:var(--transition)}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(179,0,255,.4),0 0 50px rgba(0,229,255,.2)}
+.submit-btn:hover::before{opacity:1}
+.submit-btn:active{transform:translateY(0)}
+
+.draft-status{min-height:18px;margin:-4px 0 8px;color:var(--text-dim);font-size:12px}
+
+/* ══════ Paper List ══════ */
+.paper-list{max-height:320px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(179,0,255,.2) transparent}
+.paper-item{
+    position:relative;padding:14px;border-radius:12px;
+    background:rgba(255,255,255,.02);margin-bottom:8px;cursor:pointer;
+    transition:var(--transition);border:1px solid transparent
+}
+.paper-item:hover{background:rgba(179,0,255,.06);border-color:rgba(179,0,255,.15);transform:translateX(4px)}
+.paper-delete-btn{position:absolute;top:10px;right:10px;border:0;border-radius:6px;padding:4px 8px;color:var(--text-dim);background:transparent;cursor:pointer;transition:var(--transition)}
+.paper-delete-btn:hover{color:var(--neon-red);background:rgba(255,51,85,.1)}
+.paper-item-title{font-size:14px;font-weight:600;margin-bottom:6px;line-height:1.4}
+.paper-item-meta{font-size:11px;color:var(--text-dim)}
+.paper-item-status{display:inline-block;padding:4px 12px;border-radius:8px;font-size:10px;margin-top:8px;font-weight:600;letter-spacing:.5px}
+.status-ready{background:rgba(0,255,102,.1);color:var(--neon-green);border:1px solid rgba(0,255,102,.2)}
+.status-uploaded{background:rgba(255,215,0,.1);color:var(--neon-yellow);border:1px solid rgba(255,215,0,.2)}
+.status-processing{background:rgba(179,0,255,.1);color:var(--neon-purple);border:1px solid rgba(179,0,255,.2)}
+
+/* ══════ Galgame Area ══════ */
+.galgame-area{
+    background:var(--bg-card);border:1px solid var(--border-neon);
+    border-radius:18px;overflow:hidden;position:relative;
+    box-shadow:0 0 30px rgba(179,0,255,.05)
+}
+.galgame-area::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--neon-pink),var(--neon-purple),transparent);
+    animation:neonSweep 4s linear infinite
+}
+.galgame-container{height:100%;min-height:520px;display:flex;flex-direction:column}
+
+.galgame-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text-dim)}
+.empty-icon{font-size:80px;margin-bottom:20px;opacity:.3;animation:emptyPulse 3s ease-in-out infinite}
+@keyframes emptyPulse{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.08);opacity:.5}}
+.empty-sub{font-size:13px;margin-top:8px;opacity:.4;letter-spacing:1px}
+
+/* ══════ Galgame Scene ══════ */
+.galgame-scene{flex:1;display:flex;flex-direction:column;padding:24px}
+.galgame-chapter{
+    text-align:center;font-size:20px;font-weight:700;
+    background:linear-gradient(90deg,var(--neon-cyan),var(--neon-pink));
+    background-size:200% auto;
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    animation:gradientShift 4s linear infinite;
+    margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border-neon);position:relative
+}
+.galgame-chapter::after{
+    content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:80px;height:2px;
+    background:linear-gradient(90deg,var(--neon-cyan),var(--neon-pink));border-radius:1px
+}
+.galgame-dialogues{
+    flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:16px;
+    padding:10px 0;scrollbar-width:thin;scrollbar-color:rgba(179,0,255,.15) transparent
+}
+.dialogue-item{display:flex;gap:14px;animation:dialogueIn .5s cubic-bezier(.16,1,.3,1);animation-fill-mode:both}
+.dialogue-item:nth-child(1){animation-delay:.1s}
+.dialogue-item:nth-child(2){animation-delay:.2s}
+.dialogue-item:nth-child(3){animation-delay:.3s}
+.dialogue-item:nth-child(4){animation-delay:.4s}
+@keyframes dialogueIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.dialogue-avatar{
+    width:54px;height:54px;border-radius:50%;
+    background:linear-gradient(135deg,rgba(179,0,255,.2),rgba(0,229,255,.1));
+    border:1.5px solid rgba(179,0,255,.3);display:flex;align-items:center;
+    justify-content:center;font-size:28px;flex-shrink:0;transition:transform var(--transition);
+    box-shadow:0 0 15px rgba(179,0,255,.15)
+}
+.dialogue-item:hover .dialogue-avatar{transform:scale(1.1);box-shadow:0 0 25px rgba(179,0,255,.3)}
+.dialogue-bubble{
+    background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+    border-radius:4px 16px 16px 16px;padding:14px 18px;max-width:80%;transition:var(--transition)
+}
+.dialogue-item:hover .dialogue-bubble{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)}
+.dialogue-speaker{font-size:12px;color:var(--neon-cyan);font-weight:700;margin-bottom:6px;letter-spacing:.5px}
+.dialogue-text{font-size:15px;line-height:1.8}
+.dialogue-emotion{font-size:11px;color:var(--text-dim);margin-top:8px;font-style:italic}
+.hint-bubble{background:rgba(0,229,255,.04);border-color:rgba(0,229,255,.15);text-align:center;max-width:100%;border-radius:12px}
+
+/* ══════ Controls ══════ */
+.galgame-controls{display:flex;justify-content:center;align-items:center;gap:16px;padding-top:18px;border-top:1px solid var(--border-neon)}
+.galgame-btn{
+    background:rgba(179,0,255,.08);color:var(--neon-purple);border:1.5px solid rgba(179,0,255,.25);
+    padding:10px 26px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;
+    letter-spacing:1px;transition:var(--transition)
+}
+.galgame-btn:hover:not(:disabled){background:var(--neon-purple);color:#fff;border-color:var(--neon-purple);box-shadow:0 0 20px rgba(179,0,255,.4)}
+.galgame-btn:disabled{opacity:.25;cursor:not-allowed}
+
+@media(max-width:768px){.paper-layout{grid-template-columns:1fr}.galgame-container{min-height:400px}}

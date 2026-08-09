@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习中心 | Sekai Learning</title>
+    <link rel="stylesheet" th:href="@{/css/learn.css}">
+    <link rel="stylesheet" th:href="@{/css/courses.css}">
+</head>
+<body>
+<div class="app-bg"></div>
+
+<nav class="navbar">
+    <div class="nav-brand">
+        <span class="brand-icon">🔮</span>
+        <span class="brand-text">SEKAI LEARNING</span>
+    </div>
+    <div class="nav-links">
+        <a href="/learn" class="nav-link">// HOME</a>
+        <a href="/learn/courses" class="nav-link active">// COURSES</a>
+        <a href="/learn/anime" class="nav-link">// ANIME</a>
+        <a href="/learn/community" class="nav-link">// COMMUNITY</a>
+    </div>
+    <div class="nav-user">
+        <div class="user-stats">
+            <span class="stat-item">¥ <span id="navCoins">500</span></span>
+            <span class="stat-item">LV.<span id="navLevel">1</span></span>
+        </div>
+        <div class="user-avatar" onclick="window.location.href='/learn/profile'">
+            <span>👤</span>
+        </div>
+    </div>
+</nav>
+
+<main class="main-content">
+    <section class="courses-hero">
+        <h1>&gt; 欢迎来到 <span class="highlight">学习中心</span></h1>
+        <p class="courses-hero-desc">選択して、知識の冒険を始めよう</p>
+    </section>
+
+    <section id="subjectsView">
+        <div class="subjects-grid" id="subjectsGrid"></div>
+        <div id="coursesContainer"></div>
+    </section>
+
+    <section id="courseDetailView" style="display:none;"></section>
+    <section id="lessonView" style="display:none;"></section>
+</main>
+
+<script th:src="@{/js/courses.js}"></script>
+</body>
+</html>

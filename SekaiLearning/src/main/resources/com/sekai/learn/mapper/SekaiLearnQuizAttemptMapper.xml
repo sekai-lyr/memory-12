@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sekai.learn.mapper.SekaiLearnQuizAttemptMapper">
+
+    <resultMap id="QuizAttemptResultMap" type="com.sekai.learn.dataobject.SekaiLearnQuizAttemptDO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="lesson_id" property="lessonId"/>
+        <result column="score" property="score"/>
+        <result column="total_questions" property="totalQuestions"/>
+        <result column="correct_count" property="correctCount"/>
+        <result column="completed_at" property="completedAt"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.sekai.learn.dataobject.SekaiLearnQuizAttemptDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sekai_learning_quiz_attempts (user_id, lesson_id, score, total_questions, correct_count, completed_at)
+        VALUES (#{userId}, #{lessonId}, #{score}, #{totalQuestions}, #{correctCount}, NOW())
+    </insert>
+
+    <select id="findByUserId" resultMap="QuizAttemptResultMap">
+        SELECT * FROM sekai_learning_quiz_attempts WHERE user_id = #{userId} ORDER BY completed_at DESC
+    </select>
+
+    <select id="findByUserAndLesson" resultMap="QuizAttemptResultMap">
+        SELECT * FROM sekai_learning_quiz_attempts WHERE user_id = #{userId} AND lesson_id = #{lessonId} ORDER BY completed_at DESC
+    </select>
+
+</mapper>

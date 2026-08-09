@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sekai.learn.mapper.SekaiLearnQuizQuestionMapper">
+
+    <resultMap id="QuizQuestionResultMap" type="com.sekai.learn.dataobject.SekaiLearnQuizQuestionDO">
+        <id column="id" property="id"/>
+        <result column="lesson_id" property="lessonId"/>
+        <result column="question" property="question"/>
+        <result column="question_type" property="questionType"/>
+        <result column="options" property="options"/>
+        <result column="correct_answer" property="correctAnswer"/>
+        <result column="explanation" property="explanation"/>
+        <result column="sort_order" property="sortOrder"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <select id="findByLessonId" resultMap="QuizQuestionResultMap">
+        SELECT * FROM sekai_learning_quiz_questions WHERE lesson_id = #{lessonId} ORDER BY sort_order
+    </select>
+
+    <select id="countByLessonId" resultType="int">
+        SELECT COUNT(*) FROM sekai_learning_quiz_questions WHERE lesson_id = #{lessonId}
+    </select>
+
+</mapper>

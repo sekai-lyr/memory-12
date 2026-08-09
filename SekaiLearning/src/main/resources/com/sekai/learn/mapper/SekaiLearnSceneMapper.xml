@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sekai.learn.mapper.SekaiLearnSceneMapper">
+
+    <resultMap id="SceneResultMap" type="com.sekai.learn.dataobject.SekaiLearnSceneDO">
+        <id column="id" property="id"/>
+        <result column="paper_id" property="paperId"/>
+        <result column="scene_index" property="sceneIndex"/>
+        <result column="chapter_title" property="chapterTitle"/>
+        <result column="dialogue_json" property="dialogueJson"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <select id="findByPaperId" resultMap="SceneResultMap">
+        SELECT * FROM sekai_learning_scenes WHERE paper_id = #{paperId} ORDER BY scene_index ASC
+    </select>
+
+    <select id="findById" resultMap="SceneResultMap">
+        SELECT * FROM sekai_learning_scenes WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.sekai.learn.dataobject.SekaiLearnSceneDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sekai_learning_scenes (paper_id, scene_index, chapter_title, dialogue_json, created_at)
+        VALUES (#{paperId}, #{sceneIndex}, #{chapterTitle}, #{dialogueJson}, NOW())
+    </insert>
+
+    <insert id="insertBatch">
+        INSERT INTO sekai_learning_scenes (paper_id, scene_index, chapter_title, dialogue_json, created_at)
+        VALUES
+        <foreach collection="scenes" item="scene" separator=",">
+            (#{scene.paperId}, #{scene.sceneIndex}, #{scene.chapterTitle}, #{scene.dialogueJson}, NOW())
+        </foreach>
+    </insert>
+
+    <delete id="deleteByPaperId">
+        DELETE FROM sekai_learning_scenes WHERE paper_id = #{paperId}
+    </delete>
+
+</mapper>

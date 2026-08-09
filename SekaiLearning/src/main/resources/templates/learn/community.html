@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创作社群 | Sekai Learning</title>
+    <link rel="stylesheet" th:href="@{/css/learn.css}">
+    <link rel="stylesheet" th:href="@{/css/community.css}">
+</head>
+<body>
+<div class="app-bg"></div>
+
+<nav class="navbar">
+    <div class="nav-brand">
+        <span class="brand-icon">🔮</span>
+        <span class="brand-text">SEKAI LEARNING</span>
+    </div>
+    <div class="nav-links">
+        <a href="/learn" class="nav-link">// HOME</a>
+        <a href="/learn/paper" class="nav-link">// Paper2Gal</a>
+        <a href="/learn/anime" class="nav-link">// ANIME</a>
+        <a href="/learn/community" class="nav-link active">// COMMUNITY</a>
+    </div>
+    <div class="nav-user">
+        <div class="user-stats">
+            <span class="stat-item">¥ <span id="navCoins">500</span></span>
+            <span class="stat-item">LV.<span id="navLevel">1</span></span>
+        </div>
+        <div class="user-avatar" onclick="window.location.href='/learn/profile'"><span>👤</span></div>
+    </div>
+</nav>
+
+<main class="main-content">
+    <div class="community-header">
+        <h1>&gt; ✨ 創作コミュニティ</h1>
+        <p>ノート、作品、声の録音をシェアしよう</p>
+    </div>
+
+    <div class="community-layout">
+        <div class="publish-card">
+            <h3>>_ NEW_CREATION</h3>
+            <div class="publish-form">
+                <div class="input-group">
+                    <label>> TITLE</label>
+                    <input type="text" id="creationTitle" placeholder="Name your creation...">
+                </div>
+                <div class="input-group">
+                    <label>> TYPE</label>
+                    <select id="creationType">
+                        <option value="note">📝 STUDY_NOTE</option>
+                        <option value="artwork">🎨 ARTWORK</option>
+                        <option value="voice">🎤 VOICE</option>
+                        <option value="other">📎 OTHER</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>> CONTENT</label>
+                    <textarea id="creationContent" placeholder="Share your creation..." rows="5"></textarea>
+                </div>
+                <div class="input-group">
+                    <label>> TAGS</label>
+                    <input type="text" id="creationTags" placeholder="comma, separated, tags">
+                </div>
+                <div class="draft-status" id="creationDraftStatus" aria-live="polite"></div>
+                <button class="submit-btn" onclick="publishCreation()">> PUBLISH</button>
+            </div>
+        </div>
+
+        <div class="creations-feed">
+            <div class="feed-header">
+                <h3>// LATEST_CREATIONS</h3>
+                <span class="feed-count" id="feedCount"></span>
+            </div>
+            <div class="feed-tools">
+                <input type="search" id="creationSearch" placeholder="Search..." aria-label="搜索作品">
+                <select id="creationTypeFilter" aria-label="按类型筛选">
+                    <option value="">ALL TYPES</option>
+                    <option value="note">STUDY_NOTE</option>
+                    <option value="artwork">ARTWORK</option>
+                    <option value="voice">VOICE</option>
+                    <option value="other">OTHER</option>
+                </select>
+            </div>
+            <div class="creations-list" id="creationsList">
+                <div class="empty-hint">// LOADING...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-modal" id="detailModal" style="display:none;">
+        <div class="modal-overlay" onclick="closeDetail()"></div>
+        <div class="modal-content detail-content">
+            <div class="detail-header">
+                <h3 id="detailTitle">// DETAIL</h3>
+                <button class="close-btn" onclick="closeDetail()">✕</button>
+            </div>
+            <div class="detail-body" id="detailBody"></div>
+            <div class="detail-actions">
+                <button class="action-btn" id="likeBtn" onclick="toggleLike()">♡ LIKE</button>
+                <span id="likesCount">0</span>
+            </div>
+            <div class="comments-section">
+                <h4>> COMMENTS</h4>
+                <div class="comments-list" id="commentsList"></div>
+                <div class="comment-input">
+                    <input type="text" id="commentInput" placeholder="Write a comment...">
+                    <button class="submit-btn" onclick="addComment()">SEND</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script th:src="@{/js/community.js}"></script>
+</body>
+</html>

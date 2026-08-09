@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sekai.learn.mapper.SekaiLearnCreationMapper">
+
+    <resultMap id="CreationResultMap" type="com.sekai.learn.dataobject.SekaiLearnCreationDO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="cover_url" property="coverUrl"/>
+        <result column="creation_type" property="creationType"/>
+        <result column="tags_json" property="tagsJson"/>
+        <result column="likes_count" property="likesCount"/>
+        <result column="comments_count" property="commentsCount"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findById" resultMap="CreationResultMap">
+        SELECT * FROM sekai_learning_creations WHERE id = #{id}
+    </select>
+
+    <select id="findByUserId" resultMap="CreationResultMap">
+        SELECT * FROM sekai_learning_creations WHERE user_id = #{userId} ORDER BY created_at DESC
+    </select>
+
+    <select id="findRecent" resultMap="CreationResultMap">
+        SELECT * FROM sekai_learning_creations WHERE status = 'published' ORDER BY created_at DESC LIMIT #{limit}
+    </select>
+
+    <insert id="insert" parameterType="com.sekai.learn.dataobject.SekaiLearnCreationDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sekai_learning_creations (user_id, title, content, cover_url, creation_type,
+            tags_json, likes_count, comments_count, status, created_at, updated_at)
+        VALUES (#{userId}, #{title}, #{content}, #{coverUrl}, #{creationType},
+            #{tagsJson}, #{likesCount}, #{commentsCount}, #{status}, NOW(), NOW())
+    </insert>
+
+    <update id="update" parameterType="com.sekai.learn.dataobject.SekaiLearnCreationDO">
+        UPDATE sekai_learning_creations
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="coverUrl != null">cover_url = #{coverUrl},</if>
+            <if test="tagsJson != null">tags_json = #{tagsJson},</if>
+            <if test="status != null">status = #{status},</if>
+            updated_at = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM sekai_learning_creations WHERE id = #{id}
+    </delete>
+
+    <update id="incrementLikes">
+        UPDATE sekai_learning_creations SET likes_count = likes_count + 1 WHERE id = #{id}
+    </update>
+
+    <update id="decrementLikes">
+        UPDATE sekai_learning_creations SET likes_count = GREATEST(likes_count - 1, 0) WHERE id = #{id}
+    </update>
+
+    <update id="incrementComments">
+        UPDATE sekai_learning_creations SET comments_count = comments_count + 1 WHERE id = #{id}
+    </update>
+
+</mapper>
