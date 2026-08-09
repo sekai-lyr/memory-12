@@ -1,4 +1,4 @@
-﻿# 馃帗 SekaiLearning 路 浜屾鍏冩父鎴忓寲瀛︿範骞冲彴
+# 馃帗 SekaiLearning 路 浜屾鍏冩父鎴忓寲瀛︿範骞冲彴
 
 > **Spring Boot + Thymeleaf + MyBatis 路 娓告垙鍖栨満鍒?路 绉垎 路 绀剧兢**
 > Gamified learning platform with points & community
@@ -47,7 +47,7 @@ mvn spring-boot:run
 
 
 <p align="center">
-  <img src="screenshots/demo.gif" alt="Demo" width="720"/>
+  <img src="screenshots/demo.webp" alt="Demo" width="720"/>
 </p>
 ---
 
