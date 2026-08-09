@@ -1,6 +1,6 @@
-# 🎓 SekaiLearning · 二次元游戏化学习平台
+﻿# 馃帗 SekaiLearning 路 浜屾鍏冩父鎴忓寲瀛︿範骞冲彴
 
-> **Spring Boot + Thymeleaf + MyBatis · 游戏化机制 · 积分 · 社群**
+> **Spring Boot + Thymeleaf + MyBatis 路 娓告垙鍖栨満鍒?路 绉垎 路 绀剧兢**
 > Gamified learning platform with points & community
 
 [![Java](https://img.shields.io/badge/Java-17-orange)](https://www.oracle.com/java/)
@@ -10,44 +10,45 @@
 [![MySQL](https://img.shields.io/badge/MySQL-8-4479A1)](https://www.mysql.com/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-基于 **Spring Boot + Thymeleaf + MyBatis** 的二次元风格学习平台，通过游戏化机制提升学习兴趣。
-
+鍩轰簬 **Spring Boot + Thymeleaf + MyBatis** 鐨勪簩娆″厓椋庢牸瀛︿範骞冲彴锛岄€氳繃娓告垙鍖栨満鍒舵彁鍗囧涔犲叴瓒ｃ€?
 An anime-styled gamified learning platform built with Spring Boot + Thymeleaf + MyBatis.
 
-## ✨ 功能 Features
+## 鉁?鍔熻兘 Features
 
-- 二次元风格界面 Anime-style UI
-- 背单词等学习功能 Vocabulary learning
-- **游戏化学习与积分机制** Gamified learning & points
-- **兴趣社群** Interest community
+- 浜屾鍏冮鏍肩晫闈?Anime-style UI
+- 鑳屽崟璇嶇瓑瀛︿範鍔熻兘 Vocabulary learning
+- **娓告垙鍖栧涔犱笌绉垎鏈哄埗** Gamified learning & points
+- **鍏磋叮绀剧兢** Interest community
 
-## 📐 项目结构 Project Structure
+## 馃搻 椤圭洰缁撴瀯 Project Structure
 
 ```text
 SekaiLearning/
-├── seed/        # 种子数据
-├── src/         # 源码
-└── init.sql     # 数据库初始化脚本
+鈹溾攢鈹€ seed/        # 绉嶅瓙鏁版嵁
+鈹溾攢鈹€ src/         # 婧愮爜
+鈹斺攢鈹€ init.sql     # 鏁版嵁搴撳垵濮嬪寲鑴氭湰
 ```
 
-## ▶️ 运行 Run
+## 鈻讹笍 杩愯 Run
 
 ```powershell
 cd SekaiLearning
 mvn spring-boot:run
 ```
 
-数据库密码通过环境变量 `DB_PASSWORD` 注入。
+鏁版嵁搴撳瘑鐮侀€氳繃鐜鍙橀噺 `DB_PASSWORD` 娉ㄥ叆銆?
+## 馃摑 Notes / 璇存槑
 
-## 📝 Notes / 说明
+- 鏁版嵁搴撹〃浣跨敤 `sekai_learning_` 鍓嶇紑锛堟暟鎹簱 `sekai_friend`锛?- 鍒濆鍖栬剼鏈細`SekaiLearning/init.sql`
 
-- 数据库表使用 `sekai_learning_` 前缀（数据库 `sekai_friend`）
-- 初始化脚本：`SekaiLearning/init.sql`
+## 馃搫 License
 
-## 📄 License
+[MIT](LICENSE) 漏 2026 [sekai-lyr](https://github.com/sekai-lyr)
 
-[MIT](LICENSE) © 2026 [sekai-lyr](https://github.com/sekai-lyr)
 
+<p align="center">
+  <img src="screenshots/demo.gif" alt="Demo" width="720"/>
+</p>
 ---
 
-**⭐ If this project helped you, star it! 如果这个项目对你有帮助，欢迎 Star！**
+**猸?If this project helped you, star it! 濡傛灉杩欎釜椤圭洰瀵逛綘鏈夊府鍔╋紝娆㈣繋 Star锛?*
