@@ -1,25 +1,26 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>动漫语感 | Sekai Learning</title>
-    <link rel="stylesheet" th:href="@{/css/learn.css}">
-    <link rel="stylesheet" th:href="@{/css/anime.css}">
+    <link rel="stylesheet" th:href="@{/css/learn.css?v=2}">
+    <link rel="stylesheet" th:href="@{/css/motion.css?v=1}">
+    <link rel="stylesheet" th:href="@{/css/anime.css?v=2}">
 </head>
 <body>
 <div class="app-bg"></div>
 
 <nav class="navbar">
     <div class="nav-brand">
-        <span class="brand-icon">🔮</span>
+        <span class="brand-icon">📖</span>
         <span class="brand-text">SEKAI LEARNING</span>
     </div>
     <div class="nav-links">
-        <a href="/learn" class="nav-link">// HOME</a>
-        <a href="/learn/paper" class="nav-link">// Paper2Gal</a>
-        <a href="/learn/anime" class="nav-link active">// ANIME</a>
-        <a href="/learn/community" class="nav-link">// COMMUNITY</a>
+        <a href="/learn" class="nav-link">首页</a>
+        <a href="/learn/paper" class="nav-link">论文对话</a>
+        <a href="/learn/anime" class="nav-link active">动漫语感</a>
+        <a href="/learn/community" class="nav-link">创作社群</a>
     </div>
     <div class="nav-user">
         <div class="user-stats">
@@ -32,43 +33,44 @@
 
 <main class="main-content">
     <div class="anime-header">
-        <h1>&gt; 🎬 アニメ没入型語感</h1>
+        <h1>🎬 动漫沉浸语感</h1>
         <p>アニメをコーパスとして、シャドーイングで日本語力を向上</p>
     </div>
 
     <div class="difficulty-filter">
-        <button class="filter-btn active" onclick="filterClips('')">// ALL</button>
-        <button class="filter-btn" onclick="filterClips('N5')">// N5</button>
-        <button class="filter-btn" onclick="filterClips('N4')">// N4</button>
-        <button class="filter-btn" onclick="filterClips('N3')">// N3</button>
-        <button class="filter-btn" onclick="filterClips('N2')">// N2</button>
-        <button class="filter-btn" onclick="filterClips('N1')">// N1</button>
+        <button class="filter-btn active" onclick="filterClips('', this)">全部</button>
+        <button class="filter-btn" onclick="filterClips('N5', this)">N5</button>
+        <button class="filter-btn" onclick="filterClips('N4', this)">N4</button>
+        <button class="filter-btn" onclick="filterClips('N3', this)">N3</button>
+        <button class="filter-btn" onclick="filterClips('N2', this)">N2</button>
+        <button class="filter-btn" onclick="filterClips('N1', this)">N1</button>
     </div>
 
     <div class="clips-grid" id="clipsGrid">
-        <div class="empty-hint">// LOADING_CLIPS...</div>
+        <div class="empty-hint">片段加载中...</div>
     </div>
 
     <div class="subtitle-modal" id="subtitleModal" style="display:none;">
         <div class="modal-overlay" onclick="closeSubtitleModal()"></div>
         <div class="modal-content subtitle-content">
             <div class="subtitle-header">
-                <h3 id="clipTitle">// CLIP_TITLE</h3>
+                <h3 id="clipTitle">片段标题</h3>
                 <button class="close-btn" onclick="closeSubtitleModal()">✕</button>
             </div>
             <div class="subtitle-area" id="subtitleArea"></div>
             <div class="shadow-area">
-                <h4>&gt; シャドーイング</h4>
-                <p class="shadow-hint">Click play to listen, then mimic the character's voice and intonation</p>
+                <h4>影子跟读</h4>
+                <p class="shadow-hint">点击播放后模仿角色的语气跟读，锻炼语感</p>
                 <div class="shadow-controls">
-                    <button class="play-btn" onclick="playClip()">▶ PLAY</button>
-                    <button class="play-btn" onclick="playSlow()">🐢 SLOW</button>
+                    <button class="play-btn" onclick="playClip()">▶ 播放</button>
+                    <button class="play-btn" onclick="playSlow()">🐢 慢速</button>
                 </div>
             </div>
         </div>
     </div>
 </main>
 
-<script th:src="@{/js/anime.js}"></script>
+<script th:src="@{/js/anime.js?v=2}"></script>
+<script th:src="@{/js/motion.js?v=1}"></script>
 </body>
 </html>

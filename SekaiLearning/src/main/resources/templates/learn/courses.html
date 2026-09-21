@@ -1,25 +1,26 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学习中心 | Sekai Learning</title>
-    <link rel="stylesheet" th:href="@{/css/learn.css}">
-    <link rel="stylesheet" th:href="@{/css/courses.css}">
+    <link rel="stylesheet" th:href="@{/css/learn.css?v=2}">
+    <link rel="stylesheet" th:href="@{/css/motion.css?v=1}">
+    <link rel="stylesheet" th:href="@{/css/courses.css?v=3}">
 </head>
 <body>
 <div class="app-bg"></div>
 
 <nav class="navbar">
     <div class="nav-brand">
-        <span class="brand-icon">🔮</span>
+        <span class="brand-icon">📖</span>
         <span class="brand-text">SEKAI LEARNING</span>
     </div>
     <div class="nav-links">
-        <a href="/learn" class="nav-link">// HOME</a>
-        <a href="/learn/courses" class="nav-link active">// COURSES</a>
-        <a href="/learn/anime" class="nav-link">// ANIME</a>
-        <a href="/learn/community" class="nav-link">// COMMUNITY</a>
+        <a href="/learn" class="nav-link">首页</a>
+        <a href="/learn/courses" class="nav-link active">课程中心</a>
+        <a href="/learn/anime" class="nav-link">动漫语感</a>
+        <a href="/learn/community" class="nav-link">创作社群</a>
     </div>
     <div class="nav-user">
         <div class="user-stats">
@@ -34,8 +35,8 @@
 
 <main class="main-content">
     <section class="courses-hero">
-        <h1>&gt; 欢迎来到 <span class="highlight">学习中心</span></h1>
-        <p class="courses-hero-desc">選択して、知識の冒険を始めよう</p>
+        <h1>欢迎来到 <span class="highlight">学习中心</span></h1>
+        <p class="courses-hero-desc">选择一个学科，开始今天的学习吧</p>
     </section>
 
     <section id="subjectsView">
@@ -47,6 +48,7 @@
     <section id="lessonView" style="display:none;"></section>
 </main>
 
-<script th:src="@{/js/courses.js}"></script>
+    <script th:src="@{/js/courses.js?v=3}"></script>
+<script th:src="@{/js/motion.js?v=1}"></script>
 </body>
 </html>

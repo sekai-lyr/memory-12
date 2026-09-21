@@ -2,6 +2,7 @@ package com.sekai.learn.control;
 
 import com.sekai.learn.model.Result;
 import com.sekai.learn.service.CourseService;
+import com.sekai.learn.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,9 @@ public class CourseController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private ResourceService resourceService;
 
     @GetMapping("/subjects")
     public Result<?> getSubjects() {
@@ -44,5 +48,10 @@ public class CourseController {
     public Result<?> getLesson(@PathVariable Long id,
                                 @RequestParam(required = false) Long userId) {
         return Result.ok(courseService.getLessonById(id, userId));
+    }
+
+    @GetMapping("/course/{courseId}/resources")
+    public Result<?> getCourseResources(@PathVariable Long courseId) {
+        return Result.ok(resourceService.getResourcesByCourseId(courseId));
     }
 }

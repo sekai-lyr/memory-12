@@ -1,25 +1,26 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>创作社群 | Sekai Learning</title>
-    <link rel="stylesheet" th:href="@{/css/learn.css}">
-    <link rel="stylesheet" th:href="@{/css/community.css}">
+    <link rel="stylesheet" th:href="@{/css/learn.css?v=2}">
+    <link rel="stylesheet" th:href="@{/css/motion.css?v=1}">
+    <link rel="stylesheet" th:href="@{/css/community.css?v=2}">
 </head>
 <body>
 <div class="app-bg"></div>
 
 <nav class="navbar">
     <div class="nav-brand">
-        <span class="brand-icon">🔮</span>
+        <span class="brand-icon">📖</span>
         <span class="brand-text">SEKAI LEARNING</span>
     </div>
     <div class="nav-links">
-        <a href="/learn" class="nav-link">// HOME</a>
-        <a href="/learn/paper" class="nav-link">// Paper2Gal</a>
-        <a href="/learn/anime" class="nav-link">// ANIME</a>
-        <a href="/learn/community" class="nav-link active">// COMMUNITY</a>
+        <a href="/learn" class="nav-link">首页</a>
+        <a href="/learn/paper" class="nav-link">论文对话</a>
+        <a href="/learn/anime" class="nav-link">动漫语感</a>
+        <a href="/learn/community" class="nav-link active">创作社群</a>
     </div>
     <div class="nav-user">
         <div class="user-stats">
@@ -32,57 +33,57 @@
 
 <main class="main-content">
     <div class="community-header">
-        <h1>&gt; ✨ 創作コミュニティ</h1>
-        <p>ノート、作品、声の録音をシェアしよう</p>
+        <h1>✨ 创作社群</h1>
+        <p>分享你的笔记、作品与声音</p>
     </div>
 
     <div class="community-layout">
         <div class="publish-card">
-            <h3>>_ NEW_CREATION</h3>
+            <h3>发布创作</h3>
             <div class="publish-form">
                 <div class="input-group">
-                    <label>> TITLE</label>
-                    <input type="text" id="creationTitle" placeholder="Name your creation...">
+                    <label>标题</label>
+                    <input type="text" id="creationTitle" placeholder="给你的作品起个名字">
                 </div>
                 <div class="input-group">
-                    <label>> TYPE</label>
+                    <label>类型</label>
                     <select id="creationType">
-                        <option value="note">📝 STUDY_NOTE</option>
-                        <option value="artwork">🎨 ARTWORK</option>
-                        <option value="voice">🎤 VOICE</option>
-                        <option value="other">📎 OTHER</option>
+                        <option value="note">📝 学习笔记</option>
+                        <option value="artwork">🎨 画作</option>
+                        <option value="voice">🎤 声音</option>
+                        <option value="other">📎 其他</option>
                     </select>
                 </div>
                 <div class="input-group">
-                    <label>> CONTENT</label>
-                    <textarea id="creationContent" placeholder="Share your creation..." rows="5"></textarea>
+                    <label>内容</label>
+                    <textarea id="creationContent" placeholder="分享你的创作…" rows="5"></textarea>
                 </div>
                 <div class="input-group">
-                    <label>> TAGS</label>
-                    <input type="text" id="creationTags" placeholder="comma, separated, tags">
+                    <label>标签</label>
+                    <input type="text" id="creationTags" placeholder="标签用逗号分隔">
                 </div>
                 <div class="draft-status" id="creationDraftStatus" aria-live="polite"></div>
-                <button class="submit-btn" onclick="publishCreation()">> PUBLISH</button>
+                <button class="submit-btn" onclick="publishCreation()">发布</button>
             </div>
         </div>
 
         <div class="creations-feed">
             <div class="feed-header">
-                <h3>// LATEST_CREATIONS</h3>
+                <h3>最新创作</h3>
                 <span class="feed-count" id="feedCount"></span>
             </div>
             <div class="feed-tools">
-                <input type="search" id="creationSearch" placeholder="Search..." aria-label="搜索作品">
+                <input type="search" id="creationSearch" placeholder="搜索作品…" aria-label="搜索作品">
                 <select id="creationTypeFilter" aria-label="按类型筛选">
-                    <option value="">ALL TYPES</option>
-                    <option value="note">STUDY_NOTE</option>
-                    <option value="artwork">ARTWORK</option>
-                    <option value="voice">VOICE</option>
-                    <option value="other">OTHER</option>
+                    <option value="">全部类型</option>
+                    <option value="note">学习笔记</option>
+                    <option value="artwork">画作</option>
+                    <option value="voice">声音</option>
+                    <option value="other">其他</option>
                 </select>
             </div>
             <div class="creations-list" id="creationsList">
-                <div class="empty-hint">// LOADING...</div>
+                <div class="empty-hint">加载中...</div>
             </div>
         </div>
     </div>
@@ -91,26 +92,27 @@
         <div class="modal-overlay" onclick="closeDetail()"></div>
         <div class="modal-content detail-content">
             <div class="detail-header">
-                <h3 id="detailTitle">// DETAIL</h3>
+                <h3 id="detailTitle">详情</h3>
                 <button class="close-btn" onclick="closeDetail()">✕</button>
             </div>
             <div class="detail-body" id="detailBody"></div>
             <div class="detail-actions">
-                <button class="action-btn" id="likeBtn" onclick="toggleLike()">♡ LIKE</button>
+                <button class="action-btn" id="likeBtn" onclick="toggleLike()">♡ 点赞</button>
                 <span id="likesCount">0</span>
             </div>
             <div class="comments-section">
-                <h4>> COMMENTS</h4>
+                <h4>评论</h4>
                 <div class="comments-list" id="commentsList"></div>
                 <div class="comment-input">
-                    <input type="text" id="commentInput" placeholder="Write a comment...">
-                    <button class="submit-btn" onclick="addComment()">SEND</button>
+                    <input type="text" id="commentInput" placeholder="写一条评论…">
+                    <button class="submit-btn" onclick="addComment()">发送</button>
                 </div>
             </div>
         </div>
     </div>
 </main>
 
-<script th:src="@{/js/community.js}"></script>
+<script th:src="@{/js/community.js?v=2}"></script>
+<script th:src="@{/js/motion.js?v=1}"></script>
 </body>
 </html>

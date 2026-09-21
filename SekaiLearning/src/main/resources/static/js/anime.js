@@ -48,9 +48,9 @@
         }).join('');
     }
 
-    window.filterClips = function(difficulty) {
+    window.filterClips = function(difficulty, button) {
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
+        if (button) button.classList.add('active');
         loadClips(difficulty);
     };
 
@@ -103,11 +103,13 @@
     };
 
     window.playClip = function() {
-        alert('播放功能需要接入视频资源');
+        if (window.showMotionToast) window.showMotionToast('播放功能需要接入视频资源', 'error');
+        else alert('播放功能需要接入视频资源');
     };
 
     window.playSlow = function() {
-        alert('慢速播放功能需要接入视频资源');
+        if (window.showMotionToast) window.showMotionToast('慢速播放功能需要接入视频资源', 'error');
+        else alert('慢速播放功能需要接入视频资源');
     };
 
     function escapeHtml(str) {

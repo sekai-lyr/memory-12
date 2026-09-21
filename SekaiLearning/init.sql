@@ -278,6 +278,26 @@ CREATE TABLE IF NOT EXISTS sekai_learning_quiz_attempts (
     FOREIGN KEY (lesson_id) REFERENCES sekai_learning_lessons(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- 外部学习资源表（B站精选视频 / 文章 / 网站）
+CREATE TABLE IF NOT EXISTS sekai_learning_resources (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    course_id BIGINT NOT NULL,
+    title VARCHAR(300) NOT NULL,
+    url VARCHAR(500),
+    cover_url VARCHAR(500),
+    author VARCHAR(100),
+    author_url VARCHAR(500),
+    play_count BIGINT DEFAULT 0,
+    duration VARCHAR(50),
+    description TEXT,
+    source_type VARCHAR(20) DEFAULT 'bilibili' COMMENT 'bilibili, article, website',
+    sort_order INT DEFAULT 0,
+    enabled BOOLEAN DEFAULT TRUE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (course_id) REFERENCES sekai_learning_courses(id) ON DELETE CASCADE,
+    KEY idx_course (course_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- =============================================
 -- 种子数据: 学科与课程
 -- =============================================

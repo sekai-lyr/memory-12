@@ -3,23 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sekai Learning // 二次元学习平台</title>
-    <link rel="stylesheet" th:href="@{/css/learn.css}">
+    <title>Sekai Learning · 温暖的学习世界</title>
+    <link rel="stylesheet" th:href="@{/css/learn.css?v=2}">
+    <link rel="stylesheet" th:href="@{/css/motion.css?v=1}">
 </head>
 <body>
+<!--
+THESIS: 把学习中心从霓虹仪表盘改造成一本温暖的活页笔记本；拒绝"科技感界面"这一类别默认。
+OWN-WORLD: 奶油纸底(#F7F1E5)+纸面卡片(#FFFDF7)+暖墨文字(#4A4038)，焦糖橙主色、豆沙绿/柔粉/淡紫点缀，
+          圆角卡片、柔和暖调阴影、楷体标题点缀；二次元角色以柔和贴纸感存在，无发光无扫描线。
+STORY: 用户打开学习中心像翻开自己的笔记本：安心、专注、愿意读下去。
+FIRST VIEWPORT: 奶油纸底 + 暖白毛玻璃导航 + 纸感欢迎卡片，焦糖橙强调的入口卡片横排。
+FORM: 保留既有组件骨架(卡片/列表/弹窗/进度条)，以全局 token 重绘，动效只保留柔和揭示与反馈。
+FINISH: 未审阅未记录即未完成；本构建以完成审阅、裁定、DESIGN.md 与来源记录收尾。
+-->
 <div class="app-bg"></div>
 
 <nav class="navbar">
     <div class="nav-brand">
-        <span class="brand-icon">🔮</span>
+        <span class="brand-icon">📖</span>
         <span class="brand-text">SEKAI LEARNING</span>
     </div>
     <div class="nav-links">
-        <a href="/learn" class="nav-link active">// HOME</a>
-        <a href="/learn/courses" class="nav-link">// COURSES</a>
-        <a href="/learn/paper" class="nav-link">// Paper2Gal</a>
-        <a href="/learn/anime" class="nav-link">// ANIME</a>
-        <a href="/learn/community" class="nav-link">// COMMUNITY</a>
+        <a href="/learn" class="nav-link active">首页</a>
+        <a href="/learn/courses" class="nav-link">课程中心</a>
+        <a href="/learn/paper" class="nav-link">论文对话</a>
+        <a href="/learn/anime" class="nav-link">动漫语感</a>
+        <a href="/learn/community" class="nav-link">创作社群</a>
     </div>
     <div class="nav-user">
         <div class="user-stats">
@@ -35,32 +45,32 @@
 <main class="main-content">
     <section class="hero-section">
         <div class="hero-card">
-            <h1>&gt; 欢迎来到 <span class="highlight">SEKAI LEARNING</span></h1>
-            <p class="hero-desc">ここで、学習は退屈なタスクではなく、セカイを巡る冒険だ</p>
+            <h1>欢迎来到 <span class="highlight">SEKAI LEARNING</span></h1>
+            <p class="hero-desc">在这里，学习不是枯燥的任务，而是一场温暖陪伴的旅程</p>
             <div class="hero-features">
                 <div class="feature-card" onclick="window.location.href='/learn/courses'">
                     <div class="feature-icon">🎓</div>
-                    <h3>[ 学习中心 ]</h3>
+                    <h3>学习中心</h3>
                     <p>多学科课程·测验·奖励</p>
                 </div>
                 <div class="feature-card" onclick="window.location.href='/learn/paper'">
                     <div class="feature-icon">📚</div>
-                    <h3>[ Paper2Gal ]</h3>
-                    <p>论文/教材变身Galgame</p>
+                    <h3>论文对话</h3>
+                    <p>论文/教材变身角色对话</p>
                 </div>
                 <div class="feature-card" onclick="window.location.href='/learn/anime'">
                     <div class="feature-icon">🎬</div>
-                    <h3>[ 动漫语感 ]</h3>
+                    <h3>动漫语感</h3>
                     <p>沉浸式日语学习</p>
                 </div>
                 <div class="feature-card" onclick="showCheckin()">
                     <div class="feature-icon">🎮</div>
-                    <h3>[ 每日签到 ]</h3>
+                    <h3>每日签到</h3>
                     <p>坚持学习获奖励</p>
                 </div>
                 <div class="feature-card" onclick="window.location.href='/learn/community'">
                     <div class="feature-icon">✨</div>
-                    <h3>[ 创作社群 ]</h3>
+                    <h3>创作社群</h3>
                     <p>分享你的学习成果</p>
                 </div>
             </div>
@@ -69,30 +79,30 @@
 
     <section class="dashboard-section">
         <div class="section-title">
-            <h2>STATUS_PANEL</h2>
+            <h2>我的学习状态</h2>
         </div>
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-value" id="statLevel">1</div>
-                <div class="stat-label">LEVEL</div>
+                <div class="stat-label">等级</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="statExp">0</div>
-                <div class="stat-label">EXP</div>
+                <div class="stat-label">经验</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="statStreak">0</div>
-                <div class="stat-label">STREAK</div>
+                <div class="stat-label">连续天数</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="statPapers">0</div>
-                <div class="stat-label">PAPERS</div>
+                <div class="stat-label">论文数</div>
             </div>
         </div>
 
         <div class="exp-bar-container">
             <div class="exp-bar-label">
-                <span>EXP_PROGRESS</span>
+                <span>经验进度</span>
                 <span id="expProgress">0 / 100</span>
             </div>
             <div class="exp-bar">
@@ -103,8 +113,8 @@
 
     <section class="daily-tasks-section">
         <div class="section-title">
-            <h2>DAILY_QUEST</h2>
-            <button class="checkin-btn" onclick="showCheckin()">> CHECK_IN</button>
+            <h2>今日任务</h2>
+            <button class="checkin-btn" onclick="showCheckin()">签到打卡</button>
         </div>
         <div class="tasks-list" id="tasksList">
             <div class="task-item">
@@ -127,7 +137,7 @@
 
     <section class="characters-section">
         <div class="section-title">
-            <h2>PARTY_MEMBERS</h2>
+            <h2>学习伙伴</h2>
         </div>
         <div class="characters-grid">
             <div class="character-card">
@@ -162,15 +172,16 @@
 <div class="checkin-modal" id="checkinModal" style="display:none;">
     <div class="modal-overlay" onclick="hideCheckin()"></div>
     <div class="modal-content">
-        <h3>&gt; DAILY_CHECK_IN</h3>
+        <h3>每日签到</h3>
         <div class="checkin-info">
             <p>连续签到: <span id="checkinStreak">0</span> 天</p>
-            <p>签到奖励: <span id="checkinReward">+10</span> ¥</p>
+            <p>签到奖励: <span id="checkinReward">+10</span> 金币</p>
         </div>
-        <button class="checkin-confirm-btn" onclick="doCheckin()">> CONFIRM</button>
+        <button class="checkin-confirm-btn" onclick="doCheckin()">确认签到</button>
     </div>
 </div>
 
 <script th:src="@{/js/learn.js}"></script>
+<script th:src="@{/js/motion.js?v=1}"></script>
 </body>
 </html>

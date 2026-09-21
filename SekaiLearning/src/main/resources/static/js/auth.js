@@ -61,8 +61,8 @@
                 if (data.data.expPoints) sessionStorage.setItem('expPoints', data.data.expPoints);
 
                 // Success animation
-                submitBtn.style.background = 'linear-gradient(135deg, #00ff66, #00e5ff)';
-                submitBtn.querySelector('.btn-text').textContent = isLogin ? '> ACCESS_GRANTED' : '> IDENTITY_CREATED';
+                submitBtn.style.background = 'linear-gradient(135deg, var(--sage), var(--blue))';
+                submitBtn.querySelector('.btn-text').textContent = isLogin ? '✅ 登录成功！' : '✅ 注册成功！';
                 
                 setTimeout(() => {
                     window.location.href = '/learn';

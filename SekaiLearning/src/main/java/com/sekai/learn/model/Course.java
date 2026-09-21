@@ -14,6 +14,7 @@ public class Course {
     private String createdAt;
     private String subjectName;
     private Integer completedLessons;
+    private Integer resourceCount;
     private List<Lesson> lessons;
 
     public Long getId() { return id; }
@@ -38,6 +39,8 @@ public class Course {
     public void setSubjectName(String subjectName) { this.subjectName = subjectName; }
     public Integer getCompletedLessons() { return completedLessons; }
     public void setCompletedLessons(Integer completedLessons) { this.completedLessons = completedLessons; }
+    public Integer getResourceCount() { return resourceCount; }
+    public void setResourceCount(Integer resourceCount) { this.resourceCount = resourceCount; }
     public List<Lesson> getLessons() { return lessons; }
     public void setLessons(List<Lesson> lessons) { this.lessons = lessons; }
 }

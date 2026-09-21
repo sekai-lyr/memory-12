@@ -1,4 +1,4 @@
-(function() {
+﻿(function() {
     const userId = sessionStorage.getItem('userId');
     if (!userId) {
         window.location.href = '/login';
@@ -112,7 +112,8 @@
         const characterId = document.getElementById('characterSelect').value;
 
         if (!title || !content) {
-            alert('请填写标题和内容');
+            if (window.showMotionToast) window.showMotionToast('请填写标题和内容', 'error');
+            else alert('请填写标题和内容');
             return;
         }
 
@@ -135,7 +136,8 @@
                 const genRes = await fetch(`/api/paper/${paperId}/generate`, { method: 'POST' });
                 const genData = await genRes.json();
                 if (genData.success) {
-                    alert('论文上传成功，对话已生成！');
+                    if (window.showMotionToast) window.showMotionToast('论文上传成功，对话已生成');
+                    else alert('论文上传成功，对话已生成！');
                     document.getElementById('paperTitle').value = '';
                     document.getElementById('paperContent').value = '';
                     document.getElementById('characterSelect').value = '';
@@ -144,13 +146,16 @@
                     loadPapers();
                     selectPaper(paperId);
                 } else {
-                    alert(genData.message || '生成失败');
+                    if (window.showMotionToast) window.showMotionToast(genData.message || '生成失败', 'error');
+                    else alert(genData.message || '生成失败');
                 }
             } else {
-                alert(data.message || '上传失败');
+                if (window.showMotionToast) window.showMotionToast(data.message || '上传失败', 'error');
+                else alert(data.message || '上传失败');
             }
         } catch (e) {
-            alert('上传失败，请稍后重试');
+            if (window.showMotionToast) window.showMotionToast('上传失败，请稍后重试', 'error');
+            else alert('上传失败，请稍后重试');
         }
     };
 
@@ -163,7 +168,8 @@
             });
             const data = await res.json();
             if (!data.success) {
-                alert(data.message || '删除失败');
+                if (window.showMotionToast) window.showMotionToast(data.message || '删除失败', 'error');
+                else alert(data.message || '删除失败');
                 return;
             }
             if (currentPaperId === paperId) {
@@ -173,7 +179,8 @@
             }
             await loadPapers();
         } catch (e) {
-            alert('删除失败，请稍后重试');
+            if (window.showMotionToast) window.showMotionToast('删除失败，请稍后重试', 'error');
+            else alert('删除失败，请稍后重试');
         }
     };
 
@@ -241,7 +248,7 @@
         document.getElementById('galgameContainer').innerHTML = `
             <div class="galgame-empty">
                 <div class="empty-icon">🎮</div>
-                <p>选择一篇论文开始Galgame学习</p>
+                <p>选择一篇论文，开始角色对话学习</p>
                 <p class="empty-sub">角色将通过对话为你讲解知识</p>
             </div>
         `;

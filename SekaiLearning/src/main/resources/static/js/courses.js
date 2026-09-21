@@ -1,19 +1,59 @@
-const userId = sessionStorage.getItem('userId');
+﻿const userId = sessionStorage.getItem('userId');
 if (!userId) { window.location.href = '/login'; }
 
 const API = '/api';
+const REQUEST_TIMEOUT_MS = 10000;
 
 let currentSubjectId = null;
 let currentCourseId = null;
 let currentLessonId = null;
 let currentLessonContent = null;
 let currentCharacters = [];
+let currentResources = [];
+let subjectRequestController = null;
+let subjectRequestVersion = 0;
+let courseRequestVersion = 0;
+let lessonRequestVersion = 0;
+
+async function requestJson(url, options = {}) {
+    const { signal: externalSignal, ...fetchOptions } = options;
+    const controller = new AbortController();
+    const abortRequest = () => controller.abort();
+    const timeoutId = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+    if (externalSignal) {
+        if (externalSignal.aborted) abortRequest();
+        else externalSignal.addEventListener('abort', abortRequest, { once: true });
+    }
+
+    try {
+        const response = await fetch(url, { ...fetchOptions, signal: controller.signal });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const data = await response.json();
+        if (!data.success) throw new Error(data.message || '请求失败');
+        return data;
+    } finally {
+        window.clearTimeout(timeoutId);
+        externalSignal?.removeEventListener('abort', abortRequest);
+    }
+}
+
+function renderLoadError(container, message, retryAction, backAction) {
+    container.innerHTML = `
+        <div class="empty-state load-error">
+            <div class="empty-icon">😵</div>
+            <div>${message}</div>
+            <div class="load-error-actions">
+                <button class="btn-secondary" onclick="${retryAction}">重新加载</button>
+                ${backAction ? `<button class="btn-secondary" onclick="${backAction}">返回</button>` : ''}
+            </div>
+        </div>`;
+}
 
 async function fetchUser() {
     try {
-        const r = await fetch(`${API}/auth/user/${userId}`);
-        const d = await r.json();
-        if (d.success && d.data) {
+        const d = await requestJson(`${API}/auth/user/${userId}`);
+        if (d.data) {
             document.getElementById('navCoins').textContent = d.data.coins || 500;
             document.getElementById('navLevel').textContent = d.data.level || 1;
         }
@@ -22,28 +62,28 @@ async function fetchUser() {
 
 async function loadSubjects() {
     const grid = document.getElementById('subjectsGrid');
-    grid.innerHTML = '<div class="loading">// LOADING_DATA...</div>';
+    grid.innerHTML = '<div class="loading">加载中...</div>';
     try {
-        const r = await fetch(`${API}/course/subjects`);
-        const d = await r.json();
-        if (d.success) {
-            const subjects = d.data;
-            grid.innerHTML = subjects.map(s => `
-                <div class="subject-card" data-id="${s.id}" onclick="selectSubject(${s.id})">
-                    <div class="subject-icon">${s.icon || '📖'}</div>
-                    <div class="subject-name">${s.name}</div>
-                    <div class="subject-desc">${s.description || ''}</div>
-                </div>
-            `).join('');
-            if (subjects.length > 0) selectSubject(subjects[0].id);
-        }
+        const d = await requestJson(`${API}/course/subjects`);
+        const subjects = Array.isArray(d.data) ? d.data : [];
+        grid.innerHTML = subjects.map(s => `
+            <div class="subject-card" data-id="${s.id}" onclick="selectSubject(${s.id})">
+                <div class="subject-icon">${s.icon || '📖'}</div>
+                <div class="subject-name">${s.name}</div>
+                <div class="subject-desc">${s.description || ''}</div>
+            </div>
+        `).join('');
+        if (subjects.length > 0) selectSubject(subjects[0].id);
     } catch(e) {
-        grid.innerHTML = '<div class="empty-state"><div class="empty-icon">😵</div>加载失败，请检查数据库连接</div>';
+        renderLoadError(grid, '加载失败，请检查数据库连接后重试', 'loadSubjects()');
     }
 }
 
 async function selectSubject(id) {
     currentSubjectId = id;
+    const requestVersion = ++subjectRequestVersion;
+    if (subjectRequestController) subjectRequestController.abort();
+    subjectRequestController = new AbortController();
     document.querySelectorAll('.subject-card').forEach(c => c.classList.remove('active'));
     const card = document.querySelector(`.subject-card[data-id="${id}"]`);
     if (card) card.classList.add('active');
@@ -51,13 +91,16 @@ async function selectSubject(id) {
     const container = document.getElementById('coursesContainer');
     container.innerHTML = '<div class="loading">加载课程...</div>';
     try {
-        const r = await fetch(`${API}/course/subject/${id}/courses?userId=${userId}`);
-        const d = await r.json();
-        if (d.success) {
-            renderCourses(d.data);
-        }
+        const d = await requestJson(`${API}/course/subject/${id}/courses?userId=${encodeURIComponent(userId)}`, {
+            signal: subjectRequestController.signal
+        });
+        if (requestVersion !== subjectRequestVersion || currentSubjectId !== id) return;
+        renderCourses(d.data);
     } catch(e) {
-        container.innerHTML = '';
+        if (e.name === 'AbortError' || requestVersion !== subjectRequestVersion) return;
+        renderLoadError(container, '课程加载失败，请稍后重试', `selectSubject(${id})`);
+    } finally {
+        if (requestVersion === subjectRequestVersion) subjectRequestController = null;
     }
 }
 
@@ -85,6 +128,7 @@ function renderCourses(courses) {
                         <span>📖 ${c.lessonCount || 0} 节课</span>
                         <span>⏱ ${c.estimatedHours || 1}h</span>
                         <span>✅ ${c.completedLessons || 0}/${c.lessonCount || 0}</span>
+                        ${c.resourceCount > 0 ? `<span class="course-video-badge">🎬 ${c.resourceCount} 视频</span>` : ''}
                     </div>
                     ${c.lessonCount > 0 ? `<div class="course-progress-bar"><div class="course-progress-fill" style="width:${progress}%"></div></div>` : ''}
                 </div>`;
@@ -94,19 +138,19 @@ function renderCourses(courses) {
 
 async function openCourse(courseId) {
     currentCourseId = courseId;
+    const requestVersion = ++courseRequestVersion;
     document.getElementById('subjectsView').style.display = 'none';
     const view = document.getElementById('courseDetailView');
     view.style.display = 'block';
-    view.innerHTML = '<div class="loading">// LOADING_DATA...</div>';
+    view.innerHTML = '<div class="loading">加载中...</div>';
 
     try {
-        const r = await fetch(`${API}/course/course/${courseId}?userId=${userId}`);
-        const d = await r.json();
-        if (d.success) {
-            renderCourseDetail(d.data);
-        }
+        const d = await requestJson(`${API}/course/course/${courseId}?userId=${encodeURIComponent(userId)}`);
+        if (requestVersion !== courseRequestVersion || currentCourseId !== courseId) return;
+        renderCourseDetail(d.data);
     } catch(e) {
-        view.innerHTML = '<div class="empty-state">加载失败</div>';
+        if (requestVersion !== courseRequestVersion) return;
+        renderLoadError(view, '课程加载失败，请稍后重试', `openCourse(${courseId})`, 'backToSubjects()');
     }
 }
 
@@ -125,21 +169,124 @@ function renderCourseDetail(course) {
                 <span>⏱ 约${course.estimatedHours || 1}小时</span>
                 <span>${diffLabel}</span>
                 <span>✅ ${course.completedLessons || 0}/${course.lessonCount || 0} 完成</span>
+                ${course.resourceCount > 0 ? `<span class="course-video-badge">🎬 B站视频 ${course.resourceCount} 个</span>` : ''}
             </div>
         </div>
         <div class="lessons-list" id="lessonsList">
             <div class="loading">加载课程列表...</div>
         </div>
+        <div class="resources-section" id="resourcesSection"></div>
     `;
-    loadLessons(course.id);
+    loadLessons(course.id, courseRequestVersion);
+    loadResources(course.id, courseRequestVersion);
 }
 
-async function loadLessons(courseId) {
-    const list = document.getElementById('lessonsList');
+async function loadResources(courseId, requestVersion = courseRequestVersion) {
+    const section = document.getElementById('resourcesSection');
+    if (!section || requestVersion !== courseRequestVersion || currentCourseId !== courseId) return;
     try {
-        const r = await fetch(`${API}/course/course/${courseId}/lessons?userId=${userId}`);
-        const d = await r.json();
-        if (d.success && d.data.length > 0) {
+        const d = await requestJson(`${API}/course/course/${courseId}/resources`);
+        if (requestVersion !== courseRequestVersion || currentCourseId !== courseId) return;
+        if (d.data && d.data.length > 0) {
+            currentResources = d.data;
+            const videos = d.data.filter(v => v.sourceType === 'bilibili');
+            const others = d.data.filter(v => v.sourceType !== 'bilibili');
+            section.innerHTML = `
+                <div class="resources-header">
+                    <div class="resources-title">📺 B站精选学习视频</div>
+                    <div class="resources-sub">本站课程配套的B站优质公开课，点击卡片在线观看</div>
+                </div>
+                <div class="videos-grid">
+                    ${videos.map(v => renderVideoCard(v)).join('')}
+                </div>
+                ${others.length > 0 ? `
+                    <div class="resources-header" style="margin-top:28px;">
+                        <div class="resources-title">🔗 扩展学习资源</div>
+                    </div>
+                    <div class="videos-grid">
+                        ${others.map(v => renderVideoCard(v)).join('')}
+                    </div>` : ''}
+            `;
+        } else {
+            section.innerHTML = '';
+        }
+    } catch(e) {
+        if (requestVersion === courseRequestVersion && currentCourseId === courseId) section.innerHTML = '';
+    }
+}
+
+function esc(s) {
+    return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function renderVideoCard(v) {
+    const playText = formatPlayCount(v.playCount);
+    const title = esc(v.title);
+    return `
+    <div class="video-card" onclick="openVideoPlayer(${v.id})" data-video-id="${v.id}">
+        <div class="video-cover">
+            <div class="video-cover-fallback" ${v.coverUrl ? 'style="display:none"' : ''}>🎬</div>
+            ${v.coverUrl ? `<img src="${esc(v.coverUrl)}" referrerpolicy="no-referrer" alt="${title}" loading="lazy" onerror="this.style.display='none';this.previousElementSibling.style.display='flex'">` : ''}
+            ${v.duration ? `<span class="video-duration">${esc(v.duration)}</span>` : ''}
+            <div class="video-play-btn">▶</div>
+        </div>
+        <div class="video-info">
+            <div class="video-title">${title}</div>
+            <div class="video-meta">
+                <span class="video-author">${esc(v.author)}</span>
+                <span class="video-play">▶ ${playText}</span>
+            </div>
+            ${v.description ? `<div class="video-desc">${esc(v.description)}</div>` : ''}
+        </div>
+    </div>`;
+}
+
+function formatPlayCount(n) {
+    n = Number(n) || 0;
+    if (n >= 100000000) return (n / 100000000).toFixed(1) + '亿';
+    if (n >= 10000) return (n / 10000).toFixed(1) + '万';
+    return String(n);
+}
+
+function openVideoPlayer(resourceId) {
+    const v = currentResources.find(x => x.id === resourceId);
+    if (!v) return;
+    const bvid = (v.url || '').match(/video\/(BV[0-9A-Za-z]+)/);
+    if (!bvid) { window.open(v.url, '_blank'); return; }
+    const embedUrl = `https://player.bilibili.com/player.html?bvid=${bvid[1]}&page=1&high_quality=1&danmaku=0`;
+    document.body.insertAdjacentHTML('beforeend', `
+        <div class="video-modal-overlay" onclick="closeVideoPlayer(event)">
+            <div class="video-modal" onclick="event.stopPropagation()">
+                <div class="video-modal-header">
+                    <span class="video-modal-title">${esc(v.title)}</span>
+                    <span class="video-modal-close" onclick="closeVideoPlayer(event)">✕</span>
+                </div>
+                <div class="video-modal-player">
+                    <iframe src="${embedUrl}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+                </div>
+                <div class="video-modal-footer">
+                    <a href="${esc(v.url)}" target="_blank" rel="noopener" class="btn-secondary">在B站打开 ↗</a>
+                    <a href="${esc(v.authorUrl || '#')}" target="_blank" rel="noopener" class="btn-secondary" style="border-color:rgba(123,167,201,.35);color:var(--blue-deep)">UP主主页 ↗</a>
+                </div>
+            </div>
+        </div>`);
+}
+
+function closeVideoPlayer(e) {
+    if (e) e.stopPropagation();
+    const overlay = document.querySelector('.video-modal-overlay');
+    if (overlay) overlay.remove();
+}
+
+async function loadLessons(courseId, requestVersion = courseRequestVersion) {
+    const list = document.getElementById('lessonsList');
+    if (!list || requestVersion !== courseRequestVersion || currentCourseId !== courseId) return;
+    try {
+        const d = await requestJson(`${API}/course/course/${courseId}/lessons?userId=${encodeURIComponent(userId)}`);
+        if (requestVersion !== courseRequestVersion || currentCourseId !== courseId) return;
+        if (d.data && d.data.length > 0) {
             list.innerHTML = d.data.map((l, i) => {
                 const status = l.progressStatus || 'not_started';
                 const statusClass = status === 'completed' ? 'status-completed' : status === 'in_progress' ? 'status-in_progress' : 'status-not_started';
@@ -158,11 +305,15 @@ async function loadLessons(courseId) {
             list.innerHTML = '<div class="empty-state">暂无课程内容</div>';
         }
     } catch(e) {
-        list.innerHTML = '<div class="empty-state">加载失败</div>';
+        if (requestVersion === courseRequestVersion && currentCourseId === courseId) {
+            renderLoadError(list, '课时加载失败，请稍后重试', `loadLessons(${courseId}, ${requestVersion})`);
+        }
     }
 }
 
 function backToSubjects() {
+    courseRequestVersion++;
+    lessonRequestVersion++;
     document.getElementById('courseDetailView').style.display = 'none';
     document.getElementById('lessonView').style.display = 'none';
     document.getElementById('subjectsView').style.display = 'block';
@@ -172,6 +323,7 @@ function backToSubjects() {
 
 async function openLesson(lessonId) {
     currentLessonId = lessonId;
+    const requestVersion = ++lessonRequestVersion;
     document.getElementById('courseDetailView').style.display = 'none';
     document.getElementById('subjectsView').style.display = 'none';
     const view = document.getElementById('lessonView');
@@ -180,19 +332,18 @@ async function openLesson(lessonId) {
 
     try {
         startLearning(lessonId);
-        const r = await fetch(`${API}/course/lesson/${lessonId}?userId=${userId}`);
-        const d = await r.json();
-        if (d.success) {
-            renderLesson(d.data);
-        }
+        const d = await requestJson(`${API}/course/lesson/${lessonId}?userId=${encodeURIComponent(userId)}`);
+        if (requestVersion === lessonRequestVersion && currentLessonId === lessonId) renderLesson(d.data);
     } catch(e) {
-        view.innerHTML = '<div class="empty-state">加载失败</div>';
+        if (requestVersion === lessonRequestVersion && currentLessonId === lessonId) {
+            renderLoadError(view, '课程内容加载失败，请稍后重试', `openLesson(${lessonId})`, 'backToCourse()');
+        }
     }
 }
 
 async function startLearning(lessonId) {
     try {
-        await fetch(`${API}/progress/lesson/${lessonId}/start`, {
+        await requestJson(`${API}/progress/lesson/${lessonId}/start`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userId: parseInt(userId) })
@@ -239,6 +390,7 @@ function renderLesson(lesson) {
 }
 
 function backToCourse() {
+    lessonRequestVersion++;
     document.getElementById('lessonView').style.display = 'none';
     document.getElementById('quizContainer').innerHTML = '';
     document.getElementById('paper2galContainer').innerHTML = '';
@@ -248,12 +400,12 @@ function backToCourse() {
 
 async function completeAndBack() {
     try {
-        await fetch(`${API}/progress/lesson/${currentLessonId}/complete`, {
+        await requestJson(`${API}/progress/lesson/${currentLessonId}/complete`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userId: parseInt(userId) })
         });
-        await fetch(`${API}/user/${userId}/exp`, {
+        await requestJson(`${API}/user/${userId}/exp`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ exp: 10 })
@@ -274,9 +426,8 @@ async function openQuiz(lessonId) {
         quizQuestions = currentLessonContent.questions;
     } else {
         try {
-            const r = await fetch(`${API}/course/lesson/${lessonId}?userId=${userId}`);
-            const d = await r.json();
-            if (d.success && d.data.questions) quizQuestions = d.data.questions;
+            const d = await requestJson(`${API}/course/lesson/${lessonId}?userId=${encodeURIComponent(userId)}`);
+            if (d.data.questions) quizQuestions = d.data.questions;
         } catch(e) {}
     }
 
@@ -327,15 +478,12 @@ async function submitQuiz(lessonId) {
 
     const container = document.getElementById('quizContainer');
     try {
-        const r = await fetch(`${API}/progress/lesson/${lessonId}/quiz`, {
+        const d = await requestJson(`${API}/progress/lesson/${lessonId}/quiz`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userId: parseInt(userId), answers: selectedAnswers })
         });
-        const d = await r.json();
-        if (d.success) {
-            container.innerHTML += renderQuizResult(d.data);
-        }
+        container.innerHTML += renderQuizResult(d.data);
     } catch(e) {
         alert('提交失败');
     }
@@ -364,9 +512,8 @@ async function openPaper2Gal() {
 
     if (currentCharacters.length === 0) {
         try {
-            const r = await fetch(`${API}/character/list`);
-            const d = await r.json();
-            if (d.success) currentCharacters = d.data;
+            const d = await requestJson(`${API}/character/list`);
+            currentCharacters = Array.isArray(d.data) ? d.data : [];
         } catch(e) {}
     }
 
@@ -413,7 +560,7 @@ function generateDialogue(charId) {
                 </div>
             `).join('')}
             <div class="dialogue-msg system">
-                <div>— 理解了吗？可以通过测验检验你的学习成果哦~</div>
+                <div>理解了吗？可以通过测验检验你的学习成果哦~</div>
             </div>
         </div>
     `;

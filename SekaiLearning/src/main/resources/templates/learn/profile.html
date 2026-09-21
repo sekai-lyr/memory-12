@@ -1,25 +1,26 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人中心 | Sekai Learning</title>
-    <link rel="stylesheet" th:href="@{/css/learn.css}">
-    <link rel="stylesheet" th:href="@{/css/profile.css}">
+    <link rel="stylesheet" th:href="@{/css/learn.css?v=2}">
+    <link rel="stylesheet" th:href="@{/css/motion.css?v=1}">
+    <link rel="stylesheet" th:href="@{/css/profile.css?v=2}">
 </head>
 <body>
 <div class="app-bg"></div>
 
 <nav class="navbar">
     <div class="nav-brand">
-        <span class="brand-icon">🔮</span>
+        <span class="brand-icon">📖</span>
         <span class="brand-text">SEKAI LEARNING</span>
     </div>
     <div class="nav-links">
-        <a href="/learn" class="nav-link">// HOME</a>
-        <a href="/learn/paper" class="nav-link">// Paper2Gal</a>
-        <a href="/learn/anime" class="nav-link">// ANIME</a>
-        <a href="/learn/community" class="nav-link">// COMMUNITY</a>
+        <a href="/learn" class="nav-link">首页</a>
+        <a href="/learn/paper" class="nav-link">论文对话</a>
+        <a href="/learn/anime" class="nav-link">动漫语感</a>
+        <a href="/learn/community" class="nav-link">创作社群</a>
     </div>
     <div class="nav-user">
         <div class="user-stats">
@@ -35,10 +36,10 @@
         <div class="profile-card">
             <div class="profile-avatar">👤</div>
             <div class="profile-info">
-                <h2 id="profileNickname">IDENTITY_LOADING...</h2>
+                <h2 id="profileNickname">加载中...</h2>
                 <p id="profileUsername">@username</p>
             </div>
-            <button class="logout-btn" onclick="logout()">> LOGOUT</button>
+            <button class="logout-btn" onclick="logout()">退出登录</button>
         </div>
     </div>
 
@@ -46,28 +47,28 @@
         <div class="pstat-card">
             <div class="pstat-icon">⭐</div>
             <div class="pstat-value" id="pstatLevel">1</div>
-            <div class="pstat-label">LEVEL</div>
+            <div class="pstat-label">等级</div>
         </div>
         <div class="pstat-card">
             <div class="pstat-icon">✨</div>
             <div class="pstat-value" id="pstatExp">0</div>
-            <div class="pstat-label">EXP</div>
+            <div class="pstat-label">经验</div>
         </div>
         <div class="pstat-card">
             <div class="pstat-icon">¥</div>
             <div class="pstat-value" id="pstatCoins">500</div>
-            <div class="pstat-label">CREDITS</div>
+            <div class="pstat-label">金币</div>
         </div>
         <div class="pstat-card">
             <div class="pstat-icon">🔥</div>
             <div class="pstat-value" id="pstatStreak">0</div>
-            <div class="pstat-label">STREAK</div>
+            <div class="pstat-label">连续天数</div>
         </div>
     </div>
 
     <div class="exp-section">
         <div class="exp-label">
-            <span>LEVEL_PROGRESS</span>
+            <span>等级进度</span>
             <span id="expText">0 / 100 EXP</span>
         </div>
         <div class="exp-bar">
@@ -76,20 +77,21 @@
     </div>
 
     <div class="achievements-section">
-        <h3>> ACHIEVEMENTS</h3>
+        <h3>我的成就</h3>
         <div class="achievements-grid" id="achievementsGrid">
-            <div class="empty-hint">// LOADING_ACHIEVEMENTS...</div>
+            <div class="empty-hint">成就加载中...</div>
         </div>
     </div>
 
     <div class="coin-log-section">
-        <h3>> TRANSACTION_LOG</h3>
+        <h3>金币流水</h3>
         <div class="coin-log-list" id="coinLogList">
-            <div class="empty-hint">// NO_TRANSACTIONS</div>
+            <div class="empty-hint">暂无记录</div>
         </div>
     </div>
 </main>
 
-<script th:src="@{/js/profile.js}"></script>
+<script th:src="@{/js/profile.js?v=2}"></script>
+<script th:src="@{/js/motion.js?v=1}"></script>
 </body>
 </html>

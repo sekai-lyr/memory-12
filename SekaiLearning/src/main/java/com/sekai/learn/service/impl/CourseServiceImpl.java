@@ -29,6 +29,9 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private SekaiLearnQuizQuestionMapper quizQuestionMapper;
 
+    @Autowired
+    private SekaiLearnResourceMapper resourceMapper;
+
     @Override
     public List<Subject> getSubjects() {
         List<SekaiLearnSubjectDO> subjects = subjectMapper.findAll();
@@ -47,6 +50,7 @@ public class CourseServiceImpl implements CourseService {
         List<SekaiLearnCourseDO> courses = courseMapper.findBySubjectId(subjectId);
         return courses.stream().map(c -> {
             Course course = toModel(c);
+            fillResourceCount(course);
             if (userId != null) {
                 fillCourseProgress(course, userId);
             }
@@ -59,6 +63,7 @@ public class CourseServiceImpl implements CourseService {
         SekaiLearnCourseDO course = courseMapper.findById(id);
         if (course == null) return null;
         Course model = toModel(course);
+        fillResourceCount(model);
         if (userId != null) {
             fillCourseProgress(model, userId);
         }
@@ -90,6 +95,11 @@ public class CourseServiceImpl implements CourseService {
         List<SekaiLearnQuizQuestionDO> questions = quizQuestionMapper.findByLessonId(id);
         model.setQuestions(questions.stream().map(this::toModel).collect(Collectors.toList()));
         return model;
+    }
+
+    private void fillResourceCount(Course course) {
+        List<SekaiLearnResourceDO> resources = resourceMapper.findByCourseId(course.getId());
+        course.setResourceCount(resources.size());
     }
 
     private void fillCourseProgress(Course course, Long userId) {

@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>登录 | Sekai Learning</title>
-    <link rel="stylesheet" th:href="@{/css/auth.css}">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
+    <link rel="stylesheet" th:href="@{/css/auth.css?v=3}">
+    <link rel="stylesheet" th:href="@{/css/motion.css?v=1}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
 </head>
 <body>
 <div class="auth-bg">
@@ -24,57 +25,57 @@
             <div class="logo-icon">
                 <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
                     <circle cx="30" cy="30" r="28" stroke="url(#grad1)" stroke-width="2" fill="none" stroke-dasharray="6 3"/>
-                    <text x="30" y="38" text-anchor="middle" font-size="28" fill="url(#grad1)">🔮</text>
+                    <text x="30" y="38" text-anchor="middle" font-size="28" fill="url(#grad1)">📖</text>
                     <defs>
                         <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#b300ff"/>
-                            <stop offset="50%" style="stop-color:#00e5ff"/>
-                            <stop offset="100%" style="stop-color:#ff00aa"/>
+                            <stop offset="0%" style="stop-color:#E08A4A"/>
+                            <stop offset="50%" style="stop-color:#E8A65A"/>
+                            <stop offset="100%" style="stop-color:#E3A9A4"/>
                         </linearGradient>
                     </defs>
                 </svg>
             </div>
-            <h1 class="glitch-text" data-text="SEKAI LEARNING">SEKAI LEARNING</h1>
+            <h1>SEKAI LEARNING</h1>
             <p class="subtitle">セカイ · ラーニング</p>
-            <p class="tagline">// ACCESS THE ANIME CYBERSPACE</p>
+            <p class="tagline">欢迎来到温暖的学习世界</p>
         </div>
 
         <div class="auth-tabs">
-            <button class="auth-tab active" onclick="window.location.href='/login'">[ LOGIN ]</button>
-            <button class="auth-tab" onclick="window.location.href='/register'">[ REGISTER ]</button>
+            <button class="auth-tab active" onclick="window.location.href='/login'">登录</button>
+            <button class="auth-tab" onclick="window.location.href='/register'">注册</button>
         </div>
 
         <form id="loginForm" class="auth-form">
             <div class="input-group">
-                <label>> USERNAME</label>
+                <label>用户名</label>
                 <div class="input-wrapper">
                     <span class="input-icon">👤</span>
-                    <input type="text" id="username" placeholder="Enter your username..." required autocomplete="username">
+                    <input type="text" id="username" placeholder="请输入用户名" required autocomplete="username">
                 </div>
             </div>
             <div class="input-group">
-                <label>> PASSWORD</label>
+                <label>密码</label>
                 <div class="input-wrapper">
                     <span class="input-icon">🔒</span>
-                    <input type="password" id="password" placeholder="Enter your password..." required autocomplete="current-password">
+                    <input type="password" id="password" placeholder="请输入密码" required autocomplete="current-password">
                 </div>
             </div>
             <p class="error-msg" id="errorMsg"></p>
             <button type="submit" class="auth-btn">
-                <span class="btn-text">> ACCESS_GRANTED</span>
+                <span class="btn-text">进入学习世界</span>
                 <span class="btn-arrow">→</span>
                 <span class="spinner"></span>
             </button>
         </form>
 
         <div class="auth-footer">
-            <a href="/register">&gt; NEW_USER? CREATE_IDENTITY</a>
+            <a href="/register">还没有账号？立即注册</a>
         </div>
 
         <div class="feature-hints">
             <div class="hint">
                 <span class="hint-icon">📚</span>
-                <span>Paper2Gal — 论文变身Galgame对话</span>
+                <span>Paper2Gal · 论文变身角色对话</span>
             </div>
             <div class="hint">
                 <span class="hint-icon">🎬</span>
@@ -88,6 +89,7 @@
     </div>
 </div>
 
-<script th:src="@{/js/auth.js}"></script>
+<script th:src="@{/js/auth.js?v=3}"></script>
+<script th:src="@{/js/motion.js?v=1}"></script>
 </body>
 </html>

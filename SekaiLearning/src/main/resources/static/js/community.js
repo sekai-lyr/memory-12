@@ -1,4 +1,4 @@
-(function() {
+﻿(function() {
     const userId = sessionStorage.getItem('userId');
     if (!userId) {
         window.location.href = '/login';
@@ -23,7 +23,7 @@
 
     async function loadCreations() {
         const list = document.getElementById('creationsList');
-        list.innerHTML = '<div class="empty-hint">// LOADING_CREATIONS...</div>';
+        list.innerHTML = '<div class="empty-hint">作品加载中...</div>';
         try {
             const res = await fetch('/api/creation/recent?limit=20');
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -129,7 +129,8 @@
         const tags = document.getElementById('creationTags').value.trim();
 
         if (!title || !content) {
-            alert('请填写标题和内容');
+            if (window.showMotionToast) window.showMotionToast('请填写标题和内容', 'error');
+            else alert('请填写标题和内容');
             return;
         }
 
@@ -149,7 +150,8 @@
             });
             const data = await res.json();
             if (data.success) {
-                alert('发布成功！');
+                if (window.showMotionToast) window.showMotionToast('发布成功，作品已加入社群');
+                else alert('发布成功！');
                 document.getElementById('creationTitle').value = '';
                 document.getElementById('creationContent').value = '';
                 document.getElementById('creationType').value = 'note';
@@ -158,10 +160,12 @@
                 setDraftStatus('');
                 loadCreations();
             } else {
-                alert(data.message || '发布失败');
+                if (window.showMotionToast) window.showMotionToast(data.message || '发布失败', 'error');
+                else alert(data.message || '发布失败');
             }
         } catch (e) {
-            alert('发布失败，请稍后重试');
+            if (window.showMotionToast) window.showMotionToast('发布失败，请稍后重试', 'error');
+            else alert('发布失败，请稍后重试');
         }
     };
 
@@ -249,7 +253,8 @@
                 loadComments(currentCreationId);
             }
         } catch (e) {
-            alert('评论失败');
+            if (window.showMotionToast) window.showMotionToast('评论失败', 'error');
+            else alert('评论失败');
         }
     };
 

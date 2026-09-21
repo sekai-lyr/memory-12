@@ -1,4 +1,4 @@
-(function() {
+﻿(function() {
     const userId = sessionStorage.getItem('userId');
     if (!userId) {
         window.location.href = '/login';
@@ -89,34 +89,37 @@
     window.doCheckin = async function() {
         const btn = document.querySelector('.checkin-confirm-btn');
         btn.disabled = true;
-        btn.textContent = '> PROCESSING...';
+        btn.textContent = '处理中...';
 
         try {
             const res = await fetch(`/api/user/${userId}/checkin`, { method: 'POST' });
             const data = await res.json();
             if (data.success && data.data.success) {
-                btn.textContent = '> CHECKED_IN!';
-                btn.style.background = 'linear-gradient(135deg, #00ff66, #00e5ff)';
+                btn.textContent = '✅ 已打卡！';
+                btn.style.background = 'linear-gradient(135deg, var(--sage), var(--blue))';
+                if (window.showMotionToast) window.showMotionToast('今日签到完成，金币已到账');
                 
                 animateNumber('navCoins', data.data.totalCoins);
                 
                 setTimeout(() => {
                     hideCheckin();
                     btn.disabled = false;
-                    btn.textContent = '> CONFIRM';
+                    btn.textContent = '确认';
                     btn.style.background = '';
                     loadUserData();
                 }, 1000);
             } else {
-                alert(data.data.message || '签到失败');
+                if (window.showMotionToast) window.showMotionToast(data.data.message || '签到失败', 'error');
+                else alert(data.data.message || '签到失败');
                 btn.disabled = false;
-                btn.textContent = '> CONFIRM';
+                btn.textContent = '确认';
                 hideCheckin();
             }
         } catch (e) {
-            alert('签到失败，请稍后重试');
+            if (window.showMotionToast) window.showMotionToast('签到失败，请稍后重试', 'error');
+            else alert('签到失败，请稍后重试');
             btn.disabled = false;
-            btn.textContent = '> CONFIRM';
+            btn.textContent = '确认';
         }
     };
 

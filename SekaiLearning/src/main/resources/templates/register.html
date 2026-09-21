@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>注册 | Sekai Learning</title>
-    <link rel="stylesheet" th:href="@{/css/auth.css}">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
+    <link rel="stylesheet" th:href="@{/css/auth.css?v=3}">
+    <link rel="stylesheet" th:href="@{/css/motion.css?v=1}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
 </head>
 <body>
 <div class="auth-bg">
@@ -24,58 +25,58 @@
             <div class="logo-icon">
                 <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
                     <circle cx="30" cy="30" r="28" stroke="url(#grad1)" stroke-width="2" fill="none" stroke-dasharray="6 3"/>
-                    <text x="30" y="38" text-anchor="middle" font-size="28" fill="url(#grad1)">🔮</text>
+                    <text x="30" y="38" text-anchor="middle" font-size="28" fill="url(#grad1)">📖</text>
                     <defs>
                         <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#b300ff"/>
-                            <stop offset="50%" style="stop-color:#00e5ff"/>
-                            <stop offset="100%" style="stop-color:#ff00aa"/>
+                            <stop offset="0%" style="stop-color:#E08A4A"/>
+                            <stop offset="50%" style="stop-color:#E8A65A"/>
+                            <stop offset="100%" style="stop-color:#E3A9A4"/>
                         </linearGradient>
                     </defs>
                 </svg>
             </div>
-            <h1 class="glitch-text" data-text="SEKAI LEARNING">SEKAI LEARNING</h1>
+            <h1>SEKAI LEARNING</h1>
             <p class="subtitle">セカイ · ラーニング</p>
-            <p class="tagline">// CREATE YOUR IDENTITY IN THIS WORLD</p>
+            <p class="tagline">在这里开启你的学习旅程</p>
         </div>
 
         <div class="auth-tabs">
-            <button class="auth-tab" onclick="window.location.href='/login'">[ LOGIN ]</button>
-            <button class="auth-tab active" onclick="window.location.href='/register'">[ REGISTER ]</button>
+            <button class="auth-tab" onclick="window.location.href='/login'">登录</button>
+            <button class="auth-tab active" onclick="window.location.href='/register'">注册</button>
         </div>
 
         <form id="registerForm" class="auth-form">
             <div class="input-group">
-                <label>> USERNAME</label>
+                <label>用户名</label>
                 <div class="input-wrapper">
                     <span class="input-icon">👤</span>
-                    <input type="text" id="username" placeholder="Choose your username..." required autocomplete="username">
+                    <input type="text" id="username" placeholder="取一个喜欢的用户名" required autocomplete="username">
                 </div>
             </div>
             <div class="input-group">
-                <label>> DISPLAY_NAME</label>
+                <label>昵称（选填）</label>
                 <div class="input-wrapper">
                     <span class="input-icon">✨</span>
-                    <input type="text" id="nickname" placeholder="Your display name (optional)">
+                    <input type="text" id="nickname" placeholder="展示给大家的名字">
                 </div>
             </div>
             <div class="input-group">
-                <label>> PASSWORD</label>
+                <label>密码</label>
                 <div class="input-wrapper">
                     <span class="input-icon">🔒</span>
-                    <input type="password" id="password" placeholder="Min 6 characters..." required autocomplete="new-password" minlength="6">
+                    <input type="password" id="password" placeholder="至少 6 位字符" required autocomplete="new-password" minlength="6">
                 </div>
             </div>
             <p class="error-msg" id="errorMsg"></p>
             <button type="submit" class="auth-btn">
-                <span class="btn-text">> INITIALIZE_IDENTITY</span>
+                <span class="btn-text">创建账号</span>
                 <span class="btn-arrow">→</span>
                 <span class="spinner"></span>
             </button>
         </form>
 
         <div class="auth-footer">
-            <a href="/login">&gt; EXISTING_USER? AUTHENTICATE</a>
+            <a href="/login">已有账号？去登录</a>
         </div>
 
         <div class="feature-hints">
@@ -85,12 +86,13 @@
             </div>
             <div class="hint">
                 <span class="hint-icon">🤖</span>
-                <span>5 位二次元角色等你解锁</span>
+                <span>5 位二次元角色陪你学习</span>
             </div>
         </div>
     </div>
 </div>
 
-<script th:src="@{/js/auth.js}"></script>
+<script th:src="@{/js/auth.js?v=3}"></script>
+<script th:src="@{/js/motion.js?v=1}"></script>
 </body>
 </html>

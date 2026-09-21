@@ -1,25 +1,26 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paper2Gal | Sekai Learning</title>
-    <link rel="stylesheet" th:href="@{/css/learn.css}">
-    <link rel="stylesheet" th:href="@{/css/paper.css}">
+    <link rel="stylesheet" th:href="@{/css/learn.css?v=2}">
+    <link rel="stylesheet" th:href="@{/css/motion.css?v=1}">
+    <link rel="stylesheet" th:href="@{/css/paper.css?v=2}">
 </head>
 <body>
 <div class="app-bg"></div>
 
 <nav class="navbar">
     <div class="nav-brand">
-        <span class="brand-icon">🔮</span>
+        <span class="brand-icon">📖</span>
         <span class="brand-text">SEKAI LEARNING</span>
     </div>
     <div class="nav-links">
-        <a href="/learn" class="nav-link">// HOME</a>
-        <a href="/learn/paper" class="nav-link active">// Paper2Gal</a>
-        <a href="/learn/anime" class="nav-link">// ANIME</a>
-        <a href="/learn/community" class="nav-link">// COMMUNITY</a>
+        <a href="/learn" class="nav-link">首页</a>
+        <a href="/learn/paper" class="nav-link active">论文对话</a>
+        <a href="/learn/anime" class="nav-link">动漫语感</a>
+        <a href="/learn/community" class="nav-link">创作社群</a>
     </div>
     <div class="nav-user">
         <div class="user-stats">
@@ -32,38 +33,38 @@
 
 <main class="main-content">
     <div class="paper-header">
-        <h1>&gt; 📚 Paper2Gal</h1>
+        <h1>📚 Paper2Gal</h1>
         <p>論文を面白いギャルゲーム会話に変換する</p>
     </div>
 
     <div class="paper-layout">
         <div class="paper-sidebar">
             <div class="upload-card">
-                <h3>>_ UPLOAD_PAPER</h3>
+                <h3>上传论文</h3>
                 <div class="upload-form">
                     <div class="input-group">
-                        <label>> TITLE</label>
-                        <input type="text" id="paperTitle" placeholder="Enter paper title...">
+                        <label>标题</label>
+                        <input type="text" id="paperTitle" placeholder="给论文起个标题">
                     </div>
                     <div class="input-group">
-                        <label>> CHARACTER</label>
+                        <label>讲解角色</label>
                         <select id="characterSelect">
-                            <option value="">Select narrator...</option>
+                            <option value="">选择讲解角色…</option>
                         </select>
                     </div>
                     <div class="input-group">
-                        <label>> CONTENT</label>
-                        <textarea id="paperContent" placeholder="Paste paper content..." rows="8"></textarea>
+                        <label>内容</label>
+                        <textarea id="paperContent" placeholder="粘贴论文内容…" rows="8"></textarea>
                     </div>
                     <div class="draft-status" id="draftStatus" aria-live="polite"></div>
-                    <button class="submit-btn" onclick="uploadPaper()">> UPLOAD_&_GENERATE</button>
+                    <button class="submit-btn" onclick="uploadPaper()">上传并生成对话</button>
                 </div>
             </div>
 
             <div class="paper-list-card">
-                <h3>> MY_PAPERS</h3>
+                <h3>我的论文</h3>
                 <div class="paper-list" id="paperList">
-                    <div class="empty-hint">// NO_PAPERS_FOUND</div>
+                    <div class="empty-hint">还没有上传论文</div>
                 </div>
             </div>
         </div>
@@ -72,7 +73,7 @@
             <div class="galgame-container" id="galgameContainer">
                 <div class="galgame-empty">
                     <div class="empty-icon">🎮</div>
-                    <p>Select a paper to start Galgame learning</p>
+                    <p>选择一篇论文，开始角色对话学习</p>
                     <p class="empty-sub">キャラクターがダイアログで知識を教えます</p>
                 </div>
             </div>
@@ -80,6 +81,7 @@
     </div>
 </main>
 
-<script th:src="@{/js/paper.js}"></script>
+<script th:src="@{/js/paper.js?v=2}"></script>
+<script th:src="@{/js/motion.js?v=1}"></script>
 </body>
 </html>
